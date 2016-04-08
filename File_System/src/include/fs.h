@@ -42,7 +42,7 @@ typedef enum boolean {
 #define NOFT              50
 
 /* Mount name lengths */
-#define INODE_NAME        128
+#define INODE_NAME        256
 #define MOUNT_NAME        256
 #define CJP_EXT2FS_LEN    256
 
