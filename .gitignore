@@ -1,0 +1,14 @@
+#Ignore temp files
+*~
+
+#ingore made files
+File_System/build/*
+lib/*
+File_System/obj/*
+File_System/bin/*
+
+run
+
+cjp_root
+diskimage
+test/*
