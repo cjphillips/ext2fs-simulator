@@ -6,6 +6,8 @@ int debug_dir(MINODE *ip)
   DIR *dptr;
   int i = 0;
 
+  int j;
+
   printf("~~~~~~~~~~DEBUG :: DIR~~~~~~~~~~~\n");
   printf("  -> Directory \"%s\"\n\n", ip->name);
   printf(" ino   rec_len   name_len   name\n");
