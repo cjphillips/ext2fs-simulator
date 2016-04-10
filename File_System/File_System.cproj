@@ -18,6 +18,11 @@
     <DefineSymbols>DEBUG MONODEVELOP</DefineSymbols>
     <SourceDirectory>.</SourceDirectory>
     <Externalconsole>true</Externalconsole>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="BeforeExecute" command="" />
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
@@ -47,19 +52,18 @@
     <Compile Include="src\Utility\tokenize.c" />
     <Compile Include="src\Utility\findCmd.c" />
     <Compile Include="src\Utility\search.c" />
-    <Compile Include="src\Utility\map.c" />
     <Compile Include="src\Utility\bitwise.c" />
-    <Compile Include="src\Utility\ialloc.c" />
-    <Compile Include="src\Utility\balloc.c" />
     <Compile Include="src\Utility\misc.c" />
     <Compile Include="src\Utility\get_inode.c" />
     <Compile Include="src\Utility\enter_name.c" />
     <Compile Include="src\init\init.c" />
     <Compile Include="src\init\mount_root.c" />
     <Compile Include="src\Debug\debug_dir.c" />
+    <Compile Include="src\Utility\alloc.c" />
+    <Compile Include="src\Utility\dealloc.c" />
+    <Compile Include="src\Utility\remove_name.c" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\include\cjp_ext2fs.h" />
     <None Include="src\include\fs.h" />
   </ItemGroup>
   <ProjectExtensions>

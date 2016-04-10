@@ -57,7 +57,7 @@ void __mkdir(MINODE *pip, char *name)
 {
   char buf[BLKSIZE];
 
-  int n_bno = _balloc();
+  int n_bno = balloc();
   int n_ino = ialloc();
   int i;
 

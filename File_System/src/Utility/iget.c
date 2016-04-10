@@ -44,6 +44,7 @@ MINODE *iget(int dev, int ino)
   mip->dev = dev;
   mip->ino = ino;
   mip->ref_count = 1;
+  mip->dirty = FALSE;
 
   if(DEBUGGING) {
     printf("..........................................\n");

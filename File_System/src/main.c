@@ -4,9 +4,9 @@ char *Color_Begin_Prompt = "\033[1;31m";
 char *Color_Begin_Proc = "\033[1;33m";
 char *Color_End = "\033[0m";
 
-char *cmds[] = {"ls", "cd", "pwd", "mkdir", "rmdir", "creat", 0};
+char *cmds[] = {"ls", "cd", "pwd", "mkdir", "rmdir", "creat", "rm", 0};
 
-int (*fptr[ ])() = {(int (*)()) ls, cd, pwd, _mkdir, _rmdir, _creat };
+int (*fptr[ ])() = {(int (*)()) ls, cd, pwd, _mkdir, _rmdir, _creat, _unlink };
 
 int main(int argc, char *argv[])
 {
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
       if(running == &proc[0])
         printf("# ");
       else
-	printf("$ ");
+	      printf("$ ");
       fgets(line, MAX, stdin);
     } while(line[0] == '\n');
     line[strlen(line) - 1] = 0;

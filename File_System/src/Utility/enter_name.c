@@ -42,20 +42,28 @@ int enter_name(MINODE *pip, int n_ino, char *name, int type)
     printf("  Remaining Record Length ...... %d\n", remaining);
   }
 
-  if (remaining >= needed) {
+  if (remaining >= needed) 
+  {
     dp->rec_len = Ideal_Len;
     cp += dp->rec_len;
     dp = (DIR *)cp;
+  }
+  else // MUST allocate a new block first
+  {
+    int bno = balloc();
+    pip->Inode.i_block[i + 1] = bno;
 
-    dp->inode     = n_ino;
-    dp->rec_len   = remaining;
-    dp->name_len  = n_name_len;
-    dp->file_type = type;
-    strncpy(dp->name, name, dp->name_len);
+    get_block(mp->dev, bno, buf);
+    cp = buf;
+    dp = (DIR *)cp;
+    i++;                               // Put the new block back instead (one after the current block)
   }
-  else {
-    // TODO : If no room left of block
-  }
+
+  dp->inode     = n_ino;
+  dp->rec_len   = remaining;
+  dp->name_len  = n_name_len;
+  dp->file_type = type;
+  strncpy(dp->name, name, dp->name_len);
 
   put_block(mp->dev, pip->Inode.i_block[i], buf); // THIS WILL CHANGE WHEN TODO IS ENTERED
 }

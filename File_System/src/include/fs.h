@@ -92,6 +92,7 @@ typedef struct Minode
   enum boolean mounted;
   struct Mount *mount_ptr;
   char name[INODE_NAME];           // name of file
+
 } MINODE;
 
 typedef struct Mount
@@ -143,21 +144,29 @@ void get_block(int fd, int blk, char buf[]);
 int findino(MINODE *mip, int *ino, int *p_ino);
 int findname(INODE *parent, int ino_at, char *name);
 MINODE *iget(int dev, int ino);
+void iput(MINODE *mip);
 int tokenize(char *path, char *delim);
 int findCmd(char *command);
 int search(MINODE *ip, char *name);
 int ialloc();
-int _balloc();
+int balloc();
+void idealloc(int ino);
+void bdealloc(int bno);
 void _free();
 int get_inode(MINODE **ip, char *path);
 int enter_name(MINODE *pip, int n_ino, char *name, int type);
+void remove_name(MINODE *pip, int d_ino, char *name);
+bool isEmpty(MINODE *at);
+void IncFree(bool inode);
+void decFree(bool inode);
 
-/* BASIC FILE SYSTEM TRAVERSAL -> basic.c */
+/* BASIC FILE SYSTEM TRAVERSAL -> Basic */
 int ls  ();
 int cd  ();
 int pwd ();
+void print_dir(MINODE *dir);
 
-/* ADDING/REMOVING OPERATIONS -> add_rm.c */
+/* ADDING/REMOVING OPERATIONS -> Add_rm */
 int _mkdir  ();
 int _rmdir  ();
 int _creat  ();
@@ -166,20 +175,5 @@ int _unlink ();
 /* DEBUG FUNCTIONS -> debug.c */
 int debug_dir(MINODE *ip);
 
-/*
-void get_block(int fd, int blk, char buf[]);
-
-int sb_info();
-
-char get_blk_offset(int ino, int *blk);
-
-void inode_info(INODE *at, char *name);
-
-void show_blocks(INODE *iblk, int totalBlocks);
-
-int decompose_path(char *path);
-
-int search(char buf[], char *fname);
-*/
 
 #endif /* CJP_EXT2FS_H */

@@ -12,7 +12,7 @@ void print_dir(MINODE *dir)
 {
   char *cp, buf[BLKSIZE], temp[256];
   int i, j, at_ino;
-  MINODE *at;
+  MINODE *at = 0;
   int totalbytes = 0, total = 0;
 
   for(j = 0; j < 12 && dir->Inode.i_block[j]; j++) {
@@ -28,25 +28,30 @@ void print_dir(MINODE *dir)
       temp[dp->name_len] = 0;
     
       at_ino = dp->inode;
+      //if(at_ino == 0) {
+      //  if(at)
+      //    iput(at);
+      //  continue;
+      //}
       at = iget(mp->dev, at_ino);
     
       if (DEBUGGING) {
-  printf("{DEBUG device: %d: ino = %d, block = %d}\n",
-         mp->dev, at_ino, dir->Inode.i_block[j]);
-  printf("{DEBUG rec_len = %d\n{DEBUG} name_len = %d}\n", 
-         dp->rec_len, dp->name_len);
+        printf("{DEBUG device: %d: ino = %d, block = %d}\n",
+        mp->dev, at_ino, dir->Inode.i_block[j]);
+        printf("{DEBUG rec_len = %d\n{DEBUG} name_len = %d}\n", 
+        dp->rec_len, dp->name_len);
       }
 
       if ((at->Inode.i_mode & 0xF000) == 0x8000) // regular file
-  putchar('-');
+        putchar('-');
       if ((at->Inode.i_mode & 0xF000) == 0x4000) // directory
-  putchar('d');
+        putchar('d');
     
       for(i = 8; i >= 0; i--) {
-  if (at->Inode.i_mode & (1 << i))
-    printf("%c", t1[i]);
-  else
-    printf("%c", t2[i]);
+        if (at->Inode.i_mode & (1 << i))
+          printf("%c", t1[i]);
+        else
+          printf("%c", t2[i]);
       }
 
       printf("%4d ", (int)at->Inode.i_links_count);
@@ -58,13 +63,13 @@ void print_dir(MINODE *dir)
       (ftime) ? printf("%s  ", ftime) : printf("(ctime not found)  ");
 
       if ((at->Inode.i_mode & 0xF000) == 0x4000) // directory
-  printf("%s%s%s", dirColor, temp, endColor);
+        printf("%s%s%s", dirColor, temp, endColor);
       else if ((at->Inode.i_mode & 0xF000) == 0xA000) // symbolic link
-  printf("%s%s%s", symColor, temp, endColor);
+        printf("%s%s%s", symColor, temp, endColor);
       else if ((at->Inode.i_mode & S_IXUSR) == 00100) // executable
-  printf("%s%s%s", exeColor, temp, endColor);
+        printf("%s%s%s", exeColor, temp, endColor);
       else if ((at->Inode.i_mode & 0xF000) == 0x8000) // normal file
-  printf("%s", temp);
+        printf("%s", temp);
     
       putchar('\n');
       iput(at);
