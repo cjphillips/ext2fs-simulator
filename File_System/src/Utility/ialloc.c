@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ﻿#include "../include/fs.h"
 
 int ialloc()
@@ -28,3 +29,6 @@ int ialloc()
 
   return 0; // no free inodes left
 }
+=======
+﻿
+>>>>>>> Stashed changes
