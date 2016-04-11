@@ -6,11 +6,15 @@ int get_inode(MINODE **ip, char *path)
   int i = 0, j = 0;
   int p_ino, ino;
   char buf[BLKSIZE];
+  bool from_root = FALSE;
 
   if(*ip == root)         // Do not iget the root and cwd again
     return 0;
   if(*ip == running->cwd)
     return 0;
+
+  if(path[0] == '/')
+    from_root = TRUE;
   
   if(path[0] == '/') 
     *ip = iget(mp->dev, root->ino);//root;
@@ -18,7 +22,7 @@ int get_inode(MINODE **ip, char *path)
     *ip = iget(mp->dev, running->cwd->ino);//running->cwd;
 
   numTokens = tokenize(path, "/");
-  if (path[0] == '/')
+  if (from_root)
     numTokens--;
 
   if(numTokens < 0) // no tokens
