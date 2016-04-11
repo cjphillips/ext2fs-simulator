@@ -153,7 +153,7 @@ int balloc ();
 void idealloc (int ino);
 void bdealloc (int bno);
 void _free ();
-int get_inode (MINODE **ip, char *path);
+int get_inode(char *path, int *device);
 int enter_name (MINODE *pip, int n_ino, char *name, int type);
 void remove_name (MINODE *pip, int d_ino, char *name);
 bool isEmpty (MINODE *at);

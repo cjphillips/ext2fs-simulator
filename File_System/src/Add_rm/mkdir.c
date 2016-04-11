@@ -20,6 +20,15 @@ int _mkdir()
   
   char base[INODE_NAME], dirs[INODE_NAME*6];
 
+  if(out[1][0] == '/')
+  {
+    dev = root->dev;
+  }
+  else
+  {
+    dev = running->cwd->dev;
+  }
+
   strcpy(base, basename(out[1])); // the target name
   strcpy(dirs, dirname (out[1])); // the parent path
   dirs[strlen(dirs)] = 0;
@@ -28,11 +37,12 @@ int _mkdir()
     printf("Path : %s\nBase : %s\n", dirs, base);
 
   // get the parent's inode, starting from the root OR the cwd
-  int r;
-  if((r = get_inode(&pip, dirs)) < 0) 
+  if((p_ino = get_inode(dirs, &dev)) < 0) 
   {
-    return r;
+    return p_ino;
   }
+
+  pip = iget(dev, p_ino);
 
   // Make sure that the new dir does not already exist
   if((search(pip, base) > 0)) { 

@@ -28,10 +28,12 @@ int _creat()
     printf("Path : %s\nBase : %s\n", dirs, base);
 
   // get the parent's inode, starting from the root OR the cwd
-  int r;
-  if((r = get_inode(&pip, dirs)) < 0) {
-    return r;
+  if((p_ino = get_inode(dirs, &dev)) < 0) 
+  {
+    return p_ino;
   }
+
+  pip = iget(dev, p_ino);
 
   // Make sure that the new dir does not already exist
   if((search(pip, base) > 0)) { 

@@ -13,11 +13,16 @@ int _rmdir()
     return -4;
   }
 
-  int dev;
+  int dev = running->cwd->dev;
   int ino;
   MINODE *pip;
   char buf[BLKSIZE];
-  
+
+  if(out[1][0] == '/')
+  {
+    dev = root->dev;
+  }
+
   char base[INODE_NAME], dirs[INODE_NAME*6];
 
   strcpy(base, basename(out[1])); // the target name
@@ -28,10 +33,11 @@ int _rmdir()
     printf("Path : %s\nBase : %s\n", dirs, base);
 
   // get the parent's inode, starting from the root OR the cwd
-  int r;
-  if ((r = get_inode(&pip, dirs)) < 0) {
-    return r;
+  if ((ino = get_inode(dirs, &dev)) < 0) {
+    return ino;
   }
+
+  pip = iget(dev, ino);
 
   ino = search(pip, base);
 
