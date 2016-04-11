@@ -38,7 +38,6 @@
     <Compile Include="src\Add_rm\mkdir.c" />
     <Compile Include="src\Add_rm\creat.c" />
     <Compile Include="src\Add_rm\rmdir.c" />
-    <Compile Include="src\Add_rm\unlink.c" />
     <Compile Include="src\Basic\print_dir.c" />
     <Compile Include="src\Basic\ls.c" />
     <Compile Include="src\Basic\pwd.c" />
@@ -80,6 +79,7 @@
     <Compile Include="src\File_op\close.c" />
     <Compile Include="src\Mounting\mount.c" />
     <Compile Include="src\Mounting\umount.c" />
+    <Compile Include="src\Linking\unlink.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\include\fs.h" />
