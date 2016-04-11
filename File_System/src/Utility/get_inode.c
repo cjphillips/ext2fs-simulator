@@ -21,7 +21,7 @@ int get_inode(MINODE **ip, char *path)
   if (path[0] == '/')
     numTokens--;
 
-  if(numTokens == 0) // no tokens
+  if(numTokens < 0) // no tokens
     return 0;
  
   while(i < numTokens) {

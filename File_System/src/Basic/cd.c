@@ -4,12 +4,9 @@ int cd()
 {
   bool from_root;
 
-  if (!out[1]) { // Changing to home directory
-    running->cwd = root;
-    return 0;
-  }
-  if (strcmp(out[1], "/") == 0) {    // Return to home
-    running->cwd = root;
+  if (!out[1] || strcmp(out[1], "/") == 0) { // Changing to home directory
+    iput(running->cwd);
+    running->cwd = iget(mp->dev, root->ino);
     return 0;
   }
   if (strcmp(out[1], ".") == 0) {    // No need to change directory
@@ -21,9 +18,9 @@ int cd()
   int i = 0, ino;
 
   if(out[1][0] == '/')
-    mip = root;
+    mip = iget(mp->dev, root->ino);
   else
-    mip = running->cwd;
+    mip = iget(mp->dev, running->cwd->ino);
 
   if (out[1][0] == '/')
     from_root = TRUE;
@@ -33,24 +30,26 @@ int cd()
     numTokens--;
   
   while(i < numTokens) {
-    if (i < (numTokens - 1) && !S_ISDIR(mip->Inode.i_mode)) {
+    if (i < (numTokens - 1) && !S_ISDIR(mip->Inode.i_mode)) 
+    {
       printf("\"%s\" : Not a directory\n", out[i]);
       if(mip != root && mip != running->cwd)
-  iput(mip);
+      {
+        iput(mip);
+      }
       return -2;
     }
 
     ino = search(mip, out[i]);
 
-    if(ino < 0) { // Inode not found
+    if(ino < 0) // Inode not found
+    { 
       printf("\"%s\" : Does not exist.\n", out[i]);
-      if(mip != root && mip != running->cwd)
-  iput(mip);
+      iput(mip);
       return -1;
     }
-    
-    if(mip != root && mip != running->cwd)
-      iput(mip);
+
+    iput(mip);
     
     mip = iget(mp->dev, ino);
     i++;
@@ -62,7 +61,6 @@ int cd()
   }
 
   running->cwd = mip;
-  iput(mip);
     
   return 0;
 }
