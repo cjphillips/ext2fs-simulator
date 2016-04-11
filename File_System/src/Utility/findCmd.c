@@ -5,7 +5,7 @@
 char *cmds[] = {"ls", "cd", "pwd", "mkdir", "rmdir", "creat", "rm", 
                 "link", "symlink", "readlink", "stat", "chown", "chmod",
                 "chgrp", "touch", "open", "close", "read", "write", 
-                "lseek", "cat", "cp", "mv", "mount", "umount", 0};
+                "lseek", "cat", "cp", "mv", "mount", "umount", "poft", 0};
 
 int findCmd(char *command)
 {

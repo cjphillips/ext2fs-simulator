@@ -202,6 +202,7 @@ int umount ();
 
 /* DEBUG FUNCTIONS -> debug.c */
 int debug_dir(MINODE *ip);
+int print_oft();
 
 
 #endif /* CJP_EXT2FS_H */

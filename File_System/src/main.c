@@ -7,7 +7,7 @@ char *Color_End = "\033[0m";
 int (*fptr[ ])() = {(int (*)()) ls, cd, pwd, _mkdir, _rmdir, _creat, _unlink, 
                                 link, symlink, readlink, _stat, _chown, _chmod, 
                                 _chgrp, touch, _open, _close, _read, _write,
-                                _lseek, cat, cp, mv, mount, umount };
+                                _lseek, cat, cp, mv, mount, umount, print_oft };
 
 int main(int argc, char *argv[])
 {

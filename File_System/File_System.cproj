@@ -80,6 +80,8 @@
     <Compile Include="src\Mounting\mount.c" />
     <Compile Include="src\Mounting\umount.c" />
     <Compile Include="src\Linking\unlink.c" />
+    <Compile Include="src\Utility\truncate.c" />
+    <Compile Include="src\Debug\print_oft.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\include\fs.h" />
