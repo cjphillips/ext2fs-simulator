@@ -56,12 +56,30 @@
     <Compile Include="src\Utility\misc.c" />
     <Compile Include="src\Utility\get_inode.c" />
     <Compile Include="src\Utility\enter_name.c" />
-    <Compile Include="src\init\init.c" />
-    <Compile Include="src\init\mount_root.c" />
     <Compile Include="src\Debug\debug_dir.c" />
     <Compile Include="src\Utility\alloc.c" />
     <Compile Include="src\Utility\dealloc.c" />
     <Compile Include="src\Utility\remove_name.c" />
+    <Compile Include="src\Init\init.c" />
+    <Compile Include="src\Init\mount_root.c" />
+    <Compile Include="src\Linking\symlink.c" />
+    <Compile Include="src\Linking\link.c" />
+    <Compile Include="src\Linking\readlink.c" />
+    <Compile Include="src\Basic\stat.c" />
+    <Compile Include="src\Basic\touch.c" />
+    <Compile Include="src\Basic\chmod.c" />
+    <Compile Include="src\Basic\chown.c" />
+    <Compile Include="src\Basic\chgrp.c" />
+    <Compile Include="src\File_op\open.c" />
+    <Compile Include="src\File_op\read.c" />
+    <Compile Include="src\File_op\write.c" />
+    <Compile Include="src\File_op\lseek.c" />
+    <Compile Include="src\File_op\cat.c" />
+    <Compile Include="src\File_op\cp.c" />
+    <Compile Include="src\File_op\mv.c" />
+    <Compile Include="src\File_op\close.c" />
+    <Compile Include="src\Mounting\mount.c" />
+    <Compile Include="src\Mounting\umount.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\include\fs.h" />
@@ -80,7 +98,10 @@
     <Folder Include="src\Basic\" />
     <Folder Include="src\Add_rm\" />
     <Folder Include="src\Utility\" />
-    <Folder Include="src\init\" />
     <Folder Include="src\Debug\" />
+    <Folder Include="src\Linking\" />
+    <Folder Include="src\Init\" />
+    <Folder Include="src\File_op\" />
+    <Folder Include="src\Mounting\" />
   </ItemGroup>
 </Project>

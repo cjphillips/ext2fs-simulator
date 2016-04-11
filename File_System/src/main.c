@@ -4,9 +4,15 @@ char *Color_Begin_Prompt = "\033[1;31m";
 char *Color_Begin_Proc = "\033[1;33m";
 char *Color_End = "\033[0m";
 
-char *cmds[] = {"ls", "cd", "pwd", "mkdir", "rmdir", "creat", "rm", 0};
+char *cmds[] = {"ls", "cd", "pwd", "mkdir", "rmdir", "creat", "rm", 
+                "link", "symlink", "readlink", "stat", "chown", "chmod",
+                "chgrp", "touch", "open", "close", "read", "write", 
+                "lseek", "cat", "cp", "mv", "mount", "umount", 0};
 
-int (*fptr[ ])() = {(int (*)()) ls, cd, pwd, _mkdir, _rmdir, _creat, _unlink };
+int (*fptr[ ])() = {(int (*)()) ls, cd, pwd, _mkdir, _rmdir, _creat, _unlink, 
+                                link, symlink, readlink, _stat, _chown, _chmod, 
+                                _chgrp, touch, _open, _close, _read, _write,
+                                _lseek, cat, cp, mv, mount, umount };
 
 int main(int argc, char *argv[])
 {

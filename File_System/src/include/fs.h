@@ -136,41 +136,69 @@ OFT    oft[NOFT];
 bool DEBUGGING;
 
 /* INITIALIZATION -> init.c */
-int mount_root();
-int init();
+int mount_root ();
+int init ();
 
 /* UTILITY -> util.c */
-void get_block(int fd, int blk, char buf[]);
-int findino(MINODE *mip, int *ino, int *p_ino);
-int findname(INODE *parent, int ino_at, char *name);
-MINODE *iget(int dev, int ino);
-void iput(MINODE *mip);
-int tokenize(char *path, char *delim);
-int findCmd(char *command);
-int search(MINODE *ip, char *name);
-int ialloc();
-int balloc();
-void idealloc(int ino);
-void bdealloc(int bno);
-void _free();
-int get_inode(MINODE **ip, char *path);
-int enter_name(MINODE *pip, int n_ino, char *name, int type);
-void remove_name(MINODE *pip, int d_ino, char *name);
-bool isEmpty(MINODE *at);
-void IncFree(bool inode);
-void decFree(bool inode);
+void get_block (int fd, int blk, char buf[]);
+int findino (MINODE *mip, int *ino, int *p_ino);
+int findname (INODE *parent, int ino_at, char *name);
+MINODE *iget (int dev, int ino);
+void iput (MINODE *mip);
+int tokenize (char *path, char *delim);
+int findCmd (char *command);
+int search (MINODE *ip, char *name);
+int ialloc ();
+int balloc ();
+void idealloc (int ino);
+void bdealloc (int bno);
+void _free ();
+int get_inode (MINODE **ip, char *path);
+int enter_name (MINODE *pip, int n_ino, char *name, int type);
+void remove_name (MINODE *pip, int d_ino, char *name);
+bool isEmpty (MINODE *at);
+void IncFree (bool inode);
+void decFree (bool inode);
 
+/*--------------LEVEL ONE-------------------*/
 /* BASIC FILE SYSTEM TRAVERSAL -> Basic */
-int ls  ();
-int cd  ();
+int ls ();
+int cd ();
 int pwd ();
-void print_dir(MINODE *dir);
+void print_dir (MINODE *dir);
+int touch ();
+int _stat ();
+int _chmod ();
+int _chown ();
+int _chgrp ();
 
 /* ADDING/REMOVING OPERATIONS -> Add_rm */
-int _mkdir  ();
-int _rmdir  ();
-int _creat  ();
+int _mkdir ();
+int _rmdir ();
+int _creat ();
 int _unlink ();
+
+/* LINKING OPERATIONS -> Linking*/
+int link ();
+int symlink ();
+int readlink ();
+/*------------------------------------------*/
+/*--------------LEVEL TWO-------------------*/
+/* FILE OPERATIONS -> File_op */
+int _open ();
+int _close ();
+int _read ();
+int _write ();
+int _lseek ();
+int cat ();
+int cp ();
+int mv ();
+/*------------------------------------------*/
+/*-------------LEVEL THREE------------------*/
+/* MOUNTING OPERATIONS -> MOUNTING */
+int mount ();
+int umount ();
+/*------------------------------------------*/
 
 /* DEBUG FUNCTIONS -> debug.c */
 int debug_dir(MINODE *ip);
