@@ -29,7 +29,8 @@ int _mkdir()
 
   // get the parent's inode, starting from the root OR the cwd
   int r;
-  if((r = get_inode(&pip, dirs)) < 0) {
+  if((r = get_inode(&pip, dirs)) < 0) 
+  {
     return r;
   }
 

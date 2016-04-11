@@ -2,7 +2,7 @@
 
 int cd()
 {
-  bool from_root;
+  bool from_root = FALSE;
 
   if (!out[1] || strcmp(out[1], "/") == 0) { // Changing to home directory
     iput(running->cwd);

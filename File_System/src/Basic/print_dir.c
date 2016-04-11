@@ -17,7 +17,7 @@ void print_dir(MINODE *dir)
 
   for(j = 0; j < 12 && dir->Inode.i_block[j]; j++) {
     if(DEBUGGING) 
-      printf("Listing directories on block #%d\n", dir->Inode.i_block[j]);
+      printf("Listing records on block #%d\n", dir->Inode.i_block[j]);
       
     get_block(dir->dev, dir->Inode.i_block[j], buf);
     cp = buf;

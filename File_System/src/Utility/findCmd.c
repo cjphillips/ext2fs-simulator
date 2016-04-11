@@ -1,6 +1,11 @@
 ﻿#include "../include/fs.h"
 
-extern char *cmds[];
+// extern char *cmds[];
+
+char *cmds[] = {"ls", "cd", "pwd", "mkdir", "rmdir", "creat", "rm", 
+                "link", "symlink", "readlink", "stat", "chown", "chmod",
+                "chgrp", "touch", "open", "close", "read", "write", 
+                "lseek", "cat", "cp", "mv", "mount", "umount", 0};
 
 int findCmd(char *command)
 {
