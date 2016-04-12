@@ -170,7 +170,7 @@ int menu ();
 int ls ();
 int cd ();
 int pwd ();
-void print_dir (MINODE *dir);
+void print_dir(MINODE *dir, int dev);
 int touch ();
 int _stat ();
 int _chmod ();

@@ -58,9 +58,12 @@ int link()
     return -3;
   }
 
+  mip->Inode.i_links_count++;
+
   enter_name(n_pip, ino, new_name, mip->Inode.i_mode);
 
   n_pip->dirty = TRUE;
+  mip->dirty = TRUE;
   iput(mip);
   iput(n_pip);
 

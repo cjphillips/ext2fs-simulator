@@ -72,7 +72,7 @@ void __mkdir(MINODE *pip, char *name)
   int n_ino = ialloc();
   int i;
 
-  mip = iget(mp->dev, n_ino);
+  mip = iget(pip->dev, n_ino);
   ip = &mip->Inode;
 
   if (DEBUGGING) {

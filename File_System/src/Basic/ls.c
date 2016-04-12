@@ -2,7 +2,7 @@
 
 int ls()
 {
-  char buf[BLKSIZE];
+  char buf[BLKSIZE], name[INODE_NAME];
   int i, ino, dev = running->cwd->dev;
   MINODE *at_dir = 0;
 
@@ -17,6 +17,7 @@ int ls()
     {
       dev = root->dev;
     }
+    strncpy(name, basename(out[1]), INODE_NAME);
 
     if ((ino = get_inode(out[1], &dev)) < 0)
     {
@@ -27,12 +28,12 @@ int ls()
   }
 
   if (S_ISDIR(at_dir->Inode.i_mode)) { // printing directory
-    print_dir(at_dir);
+    print_dir(at_dir, dev);
     iput(at_dir);
     return 0;
   }
   else {
-    printf("\"%s\" : Not a directory.\n", out[1]);
+    printf("\"%s\" : Not a directory.\n", name);
   }
 
   iput(at_dir);

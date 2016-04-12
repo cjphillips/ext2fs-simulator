@@ -64,7 +64,7 @@ int _unlink()
       printf("\"%s\" : not altered, permission denied.\n", base);
 
   }
-  else if (mip->Inode.i_links_count > 1) 
+  else if (mip->ref_count > 1) 
   {
     printf("\"%s\" : In use elsewhere.\n", base);
     iput(mip);
@@ -74,14 +74,18 @@ int _unlink()
   }
   else
   {
-    __unlink(mip, pip, base);
+    mip->Inode.i_links_count--;
+    if (mip->Inode.i_links_count == 0)
+    {
+      __unlink(mip, pip, base);
+    }
 
     if (DEBUGGING)
       debug_dir(pip);
 
-    pip->Inode.i_links_count--;
     pip->Inode.i_atime = time(0L);
     pip->dirty = TRUE;
+    mip->dirty = TRUE;
   }
 
   iput(pip);

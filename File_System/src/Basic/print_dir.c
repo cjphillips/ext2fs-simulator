@@ -9,7 +9,7 @@ static char *exeColor = "\033[1;32m";
 static char *broken   = "\033[1;31m";
 static char *endColor = "\033[0m";
 
-void print_dir(MINODE *dir)
+void print_dir(MINODE *dir, int dev)
 {
   char *cp, buf[BLKSIZE], temp[256];
   int i, j, at_ino;
@@ -34,7 +34,7 @@ void print_dir(MINODE *dir)
       //    iput(at);
       //  continue;
       //}
-      at = iget(mp->dev, at_ino);
+      at = iget(dev, at_ino);
     
       if (DEBUGGING) {
         printf("{DEBUG device: %d: ino = %d, block = %d}\n",
@@ -62,8 +62,10 @@ void print_dir(MINODE *dir)
       printf("%4d ", at->Inode.i_uid);
       printf("%8d ", (int)at->Inode.i_size);
 
-      char *ftime = ctime((time_t *)&at->Inode.i_ctime);
-      (ftime) ? printf("%s  ", ftime) : printf("(ctime not found)  ");
+      printf("%s  ", ctime((time_t *)&at->Inode.i_ctime));
+
+      //char *ftime = ctime((time_t *)&at->Inode.i_ctime);
+      //(ftime) ? printf("%s  ", ftime) : printf("(ctime not found)  ");
 
 
       if ((at->Inode.i_mode & 0xF000) == 0xA000) // symbolic link
