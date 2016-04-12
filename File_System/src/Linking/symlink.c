@@ -14,7 +14,8 @@ int symlink()
   }
   if (strcmp(out[1], ".") == 0)
   {
-    printf("Cannot link to same directory.\n");
+    printf("Cannot link to \".\" (current directory).\n");
+    return -3;
   }
 
   char old[60], new[INODE_NAME], buf[BLKSIZE];              // The data block of the new link can only hold 60 bytes
@@ -30,6 +31,11 @@ int symlink()
   strcpy(new, out[2]);
   old[59] = 0;
 
+  o_ino = get_inode(old, &dev);
+  if(o_ino < 0)
+  {
+    return o_ino;
+  }
 
   char arg[INODE_NAME];
   strcpy(arg, "creat ");
@@ -37,19 +43,12 @@ int symlink()
   strcat(arg, new);
   tokenize(arg, " ");
 
-  o_ino = get_inode(old, &dev);
-  if(o_ino < 0)
-  {
-    return o_ino;
-  }
-
   if ((_creat()) < 0)                         // Create the new file
   {
     return -3;
   }
+
   n_ino = get_inode(new, &dev);
-
-
   if(n_ino < 0)
   {
     return n_ino;
