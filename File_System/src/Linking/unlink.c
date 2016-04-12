@@ -47,7 +47,7 @@ int _unlink()
 
   mip = iget(mp->dev, ino); // get the inode to remove
 
-  if (mip->Inode.i_mode != REG_FILE)
+  if (mip->Inode.i_mode != REG_FILE && mip->Inode.i_mode != LNK)
   {
     printf("\"%s\" : Not a file.\n", base);
     iput(mip);

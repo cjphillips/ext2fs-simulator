@@ -1,13 +1,14 @@
 #include "include/fs.h"
 
-char *Color_Begin_Prompt = "\033[1;31m";
-char *Color_Begin_Proc = "\033[1;33m";
-char *Color_End = "\033[0m";
+static char *Color_Begin_Prompt = "\033[1;31m";
+static char *Color_Begin_Proc = "\033[1;33m";
+static char *Color_End = "\033[0m";
 
 int (*fptr[ ])() = {(int (*)()) ls, cd, pwd, _mkdir, _rmdir, _creat, _unlink, 
                                 link, symlink, readlink, _stat, _chown, _chmod, 
                                 _chgrp, touch, _open, _close, _read, _write,
-                                _lseek, cat, cp, mv, mount, umount, print_oft };
+                                _lseek, cat, cp, mv, mount, umount, print_oft, shutdown,
+                                menu };
 
 int main(int argc, char *argv[])
 {
@@ -66,7 +67,7 @@ int main(int argc, char *argv[])
     else {
       r = fptr[f_call](); // Call the selected function
       if(DEBUGGING)
-	printf("{(DEBUG) \"%s\" returned : %d}\n", cmd, r);
+	      printf("{(DEBUG) \"%s\" returned : %d}\n", cmd, r);
     }
 
     _free();

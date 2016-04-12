@@ -53,6 +53,7 @@ typedef enum boolean {
 
 #define DIRECTORY         0x41ED
 #define REG_FILE          0x81A4
+#define LNK               0xA000
 
 typedef struct Oft
 {
@@ -135,13 +136,16 @@ OFT    oft[NOFT];
 
 bool DEBUGGING;
 
-/* INITIALIZATION -> init.c */
+/* PROGRAM SHUTDOWN -> */
+int shutdown ();
+
+/* INITIALIZATION -> Init */
 int mount_root ();
 int init ();
 
-/* UTILITY -> util.c */
+/* UTILITY OPERATIONS -> Utility */
 void get_block (int fd, int blk, char buf[]);
-int findino (MINODE *mip, int *ino, int *p_ino);
+int findino(MINODE *mip, int *ino, int *p_ino);
 int findname (INODE *parent, int ino_at, char *name);
 MINODE *iget (int dev, int ino);
 void iput (MINODE *mip);
@@ -159,6 +163,7 @@ void remove_name (MINODE *pip, int d_ino, char *name);
 bool isEmpty (MINODE *at);
 void IncFree (bool inode);
 void decFree (bool inode);
+int menu ();
 
 /*--------------LEVEL ONE-------------------*/
 /* BASIC FILE SYSTEM TRAVERSAL -> Basic */

@@ -13,12 +13,17 @@ int _creat()
     return -4;
   }
  
-  int dev;
+  int dev = running->cwd->dev;
   int p_ino;
   MINODE *pip;
   char buf[BLKSIZE];
 
   char base[INODE_NAME], dirs[INODE_NAME*6];
+
+  if (out[1][0] == '/')
+  {
+    dev = root->dev;
+  }
 
   strcpy(base, basename(out[1])); // the target name
   strcpy(dirs, dirname (out[1])); // the parent path

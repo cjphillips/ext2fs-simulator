@@ -47,6 +47,7 @@ int get_inode(char *path, int *device)
       return ino;
     }
 
+    iput(ip);
     ip = iget(*device, ino);
     
     ino = search(ip, out[i]);
@@ -57,14 +58,10 @@ int get_inode(char *path, int *device)
       return -1;
     }
 
-
     if(DEBUGGING) 
       printf("{DEBUG} parent ino = %d, i_mode = %x\n", ino, ip->Inode.i_mode);
     
-    iput(ip);
-    ip = iget(mp->dev, ino);
-    
-    if(i < numTokens && !S_ISDIR(ip->Inode.i_mode)) {
+    if(i < numTokens && ip->Inode.i_mode != DIRECTORY) {
       errno = 20; // not a directory
       printf("\"%s\" : %s\n", out[i], strerror(errno)); 
       iput(ip);
@@ -73,4 +70,7 @@ int get_inode(char *path, int *device)
     
     i++;
   }
+
+  iput(ip);
+  return ino;
 }

@@ -5,6 +5,7 @@ int _open ()
   int mode = 0, dev, ino;
   OFT *oftp = 0;
   MINODE *mip;
+  char file_name[INODE_NAME];
 
   if (!out[1])
   {
@@ -34,12 +35,19 @@ int _open ()
     dev = running->cwd->dev;
   }
 
+  strcpy(file_name, out[1]);
   ino = get_inode(out[1], &dev);
+
+  if (ino < 0)
+  {
+    return ino;
+  }
+
   mip = iget(dev, ino);
 
   if (mip->Inode.i_mode != REG_FILE) // Must be a regular file to open
   {
-    printf("\"%s\" : not a REG_FILE.\n", mip->name);
+    printf("\"%s\" : not a file.\n", file_name);
     iput(mip);
     return -3;
   }
@@ -50,9 +58,9 @@ int _open ()
   {
     if (oft[i].inode_ptr->ino == mip->ino)
     {
-      if(oft[i].mode != 0) // A file can be opened many times in read mode (but read mode ONLY).
+      if(mode != 0) // A file can be opened many times in read mode (but read mode ONLY).
       {
-        printf("\"%s\" : Already opened.\n", mip->name);
+        printf("\"%s\" : Already opened.\n", file_name);
         iput(mip);
         return -4;
       }
@@ -60,6 +68,7 @@ int _open ()
 
     i++;
   }
+
 
   i = 0;
   oftp = &oft[0];
@@ -77,8 +86,10 @@ int _open ()
     return -5;
   }
 
+
   oftp->mode = mode;     // The desired mode
   oftp->ref_count = 1;   // This file is being referenced once
+  strcpy(mip->name, file_name);
   oftp->inode_ptr = mip; // Pointer to the files inode
 
   switch(mode) // Set the offset for the file accordingly
@@ -99,6 +110,8 @@ int _open ()
   {
     // TODO: close the file
   }
+
+  running->fd[i] = oftp;
 
   if (mode != 0) // Update time fields
   {

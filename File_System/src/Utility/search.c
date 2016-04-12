@@ -11,8 +11,6 @@ int search(MINODE *ip, char *name)
     cp = buf;
     dp = (DIR *)buf;
     while(cp < buf + BLKSIZE) {
-      if(cp + dp->rec_len  == buf + BLKSIZE)
-        break;
       bzero(temp, EXT2_NAME_LEN);
       strncpy(temp, dp->name, dp->name_len);
     

@@ -8,15 +8,16 @@ MINODE *iget(int dev, int ino)
   
   for(i = 0; i < NMINODES; i++) {
     if (minode[i].ref_count > 0 &&
-  minode[i].dev == dev    && 
-  minode[i].ino == ino) {
+      minode[i].dev == dev    && 
+      minode[i].ino == ino) 
+    {
       // An INODE for ino already exists
       minode[i].ref_count++;
       if(DEBUGGING) {
-  printf("..........................................\n");
-  printf("iget ... found inode[%d, %d] in memory.\n", dev, ino);
-  printf(" -> with name \"%s\"\n", minode[i].name);
-  printf("..........................................\n");
+        printf("..........................................\n");
+        printf("iget ... found inode[%d, %d] in memory.\n", dev, ino);
+        printf(" -> with name \"%s\"\n", minode[i].name);
+        printf("..........................................\n");
       }
       return &(minode[i]);
     }
@@ -36,7 +37,7 @@ MINODE *iget(int dev, int ino)
   blk = (ino - 1) / INODES_PER_BLOCK + mp->iblock;
   offset = (ino - 1) % INODES_PER_BLOCK;
 
-  get_block(mp->dev, blk, buf);
+  get_block(dev, blk, buf);
   ip = (INODE *)buf + offset;
   
   memcpy(&mip->Inode, ip, sizeof(INODE));
@@ -65,7 +66,7 @@ MINODE *iget(int dev, int ino)
   blk = (p_ino - 1) / INODES_PER_BLOCK + mp->iblock;
   offset = (p_ino - 1) % INODES_PER_BLOCK;
 
-  get_block(mp->dev, blk, buf);
+  get_block(dev, blk, buf);
   ip = (INODE *)buf + offset;    // Contains the parent inode
 
   findname(ip, ino, fname);

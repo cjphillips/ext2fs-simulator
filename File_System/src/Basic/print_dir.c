@@ -6,6 +6,7 @@ static char *t2 = "----------------";
 static char *dirColor = "\033[1;34m";
 static char *symColor = "\033[1;36m";
 static char *exeColor = "\033[1;32m";
+static char *broken   = "\033[1;31m";
 static char *endColor = "\033[0m";
 
 void print_dir(MINODE *dir)
@@ -46,6 +47,8 @@ void print_dir(MINODE *dir)
         putchar('-');
       if ((at->Inode.i_mode & 0xF000) == 0x4000) // directory
         putchar('d');
+      if ((at->Inode.i_mode & 0xF000) == 0xA000)
+        putchar('l');
     
       for(i = 8; i >= 0; i--) {
         if (at->Inode.i_mode & (1 << i))
@@ -62,10 +65,24 @@ void print_dir(MINODE *dir)
       char *ftime = ctime((time_t *)&at->Inode.i_ctime);
       (ftime) ? printf("%s  ", ftime) : printf("(ctime not found)  ");
 
-      if ((at->Inode.i_mode & 0xF000) == 0x4000) // directory
+
+      if ((at->Inode.i_mode & 0xF000) == 0xA000) // symbolic link
+      {
+        char link[BLKSIZE]; bzero(link, BLKSIZE);
+        get_block(at->dev, at->Inode.i_block[0], link);
+
+        if (!link)
+        {
+          printf("%s%s%s -> ", broken, temp, endColor);
+        }
+        else
+        {
+          printf("%s%s%s -> ", symColor, temp, endColor);
+          printf("%s", basename(link));
+        }
+      }
+      else if ((at->Inode.i_mode & 0xF000) == 0x4000) // directory
         printf("%s%s%s", dirColor, temp, endColor);
-      else if ((at->Inode.i_mode & 0xF000) == 0xA000) // symbolic link
-        printf("%s%s%s", symColor, temp, endColor);
       else if ((at->Inode.i_mode & S_IXUSR) == 00100) // executable
         printf("%s%s%s", exeColor, temp, endColor);
       else if ((at->Inode.i_mode & 0xF000) == 0x8000) // normal file

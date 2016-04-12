@@ -82,6 +82,8 @@
     <Compile Include="src\Linking\unlink.c" />
     <Compile Include="src\Utility\truncate.c" />
     <Compile Include="src\Debug\print_oft.c" />
+    <Compile Include="src\shutdown.c" />
+    <Compile Include="src\Utility\menu.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\include\fs.h" />
