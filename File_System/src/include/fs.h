@@ -53,7 +53,7 @@ typedef enum boolean {
 
 #define DIRECTORY         0x41ED
 #define REG_FILE          0x81A4
-#define LNK               0xA000
+#define LNK               0xA1A4
 
 typedef struct Oft
 {

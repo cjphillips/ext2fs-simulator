@@ -43,12 +43,12 @@ void print_dir(MINODE *dir)
         dp->rec_len, dp->name_len);
       }
 
-      if ((at->Inode.i_mode & 0xF000) == 0x8000) // regular file
-        putchar('-');
       if ((at->Inode.i_mode & 0xF000) == 0x4000) // directory
         putchar('d');
-      if ((at->Inode.i_mode & 0xF000) == 0xA000)
+      else if ((at->Inode.i_mode & 0xF000) == 0xA000)
         putchar('l');
+      else
+        putchar('-');
     
       for(i = 8; i >= 0; i--) {
         if (at->Inode.i_mode & (1 << i))
