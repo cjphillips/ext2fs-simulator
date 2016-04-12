@@ -53,7 +53,7 @@ int get_inode(char *path, int *device)
     ino = search(ip, out[i]);
     if(ino < 0) {
       errno = 2; // no such file or directory
-      printf("\"%s\" : %s\n", out[i], strerror(errno)); 
+      printf("\"%s\" : %s.\n", out[i], strerror(errno)); 
       iput(ip);
       return -1;
     }

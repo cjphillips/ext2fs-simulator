@@ -4,13 +4,17 @@ int symlink()
 {
   if (!out[1])
   {
-    printf("Missing both arguements.n");
+    printf("Usage: symlink TARGET LINK_NAME\n");
     return -1;
   }
   if (!out[2])
   {
     printf("Missing link name.\n");
     return -2;
+  }
+  if (strcmp(out[1], ".") == 0)
+  {
+    printf("Cannot link to same directory.\n");
   }
 
   char old[60], new[INODE_NAME], buf[BLKSIZE];              // The data block of the new link can only hold 60 bytes
