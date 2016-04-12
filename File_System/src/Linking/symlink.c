@@ -33,20 +33,22 @@ int symlink()
   strcat(arg, new);
   tokenize(arg, " ");
 
+  o_ino = get_inode(old, &dev);
+  if(o_ino < 0)
+  {
+    return o_ino;
+  }
+
   if ((_creat()) < 0)                         // Create the new file
   {
     return -3;
   }
   n_ino = get_inode(new, &dev);
-  o_ino = get_inode(old, &dev);
+
 
   if(n_ino < 0)
   {
     return n_ino;
-  }
-  if(o_ino < 0)
-  {
-    return o_ino;
   }
 
   mip_new = iget(dev, n_ino);
