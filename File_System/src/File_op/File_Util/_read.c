@@ -20,9 +20,9 @@ int __read(int fd, char buf[], int nbytes)
     return -5;
   }
 
-  lblk   = oftp->offset / BLKSIZE;                   // Get the logical block to read from
-  start  = oftp->offset % BLKSIZE;                   // Get the byte # to start reading at
-  remain = BLKSIZE - start;                          // Find the remaining bytes on this block
+  lblk   = oftp->offset / BLKSIZE;                         // Get the logical block to read from
+  start  = oftp->offset % BLKSIZE;                         // Get the byte # to start reading at
+  remain = BLKSIZE - start;                                // Find the remaining bytes on this block
   avail  = oftp->inode_ptr->Inode.i_size - oftp->offset;   // Find the available bytes left in the file
 
   int blk;
@@ -33,15 +33,11 @@ int __read(int fd, char buf[], int nbytes)
     {
       blk = oftp->inode_ptr->Inode.i_block[lblk];
     }
-    else if (lblk == 12) // single indirect
+    else if (lblk >= 12 && lblk < 256 + 12)   // single indirect
     {
     }
-    else if (lblk == 13) // double indirect 
+    else                                      // double indirect 
     {
-    }
-    else                 // triple indirect
-    {
-      // TODO
     }
 
     get_block(oftp->inode_ptr->dev, blk, readbuf);  // Get the referenced data block
@@ -49,10 +45,6 @@ int __read(int fd, char buf[], int nbytes)
 
     while(remain > 0)
     {
-      if (remain == 2)
-      {
-        printf("Hello\n");
-      }
       *cs++ = *cp++;
       oftp->offset++;
       count++;
@@ -66,7 +58,7 @@ int __read(int fd, char buf[], int nbytes)
       }
     }
 
-    if ( (nbytes - BLKSIZE) <= 0)
+    if ( (nbytes - BLKSIZE) <= 0 )
       remain = nbytes;
     else
       remain = BLKSIZE;

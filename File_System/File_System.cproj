@@ -88,6 +88,7 @@
     <Compile Include="src\File_op\File_Util\_close.c" />
     <Compile Include="src\File_op\File_Util\_open.c" />
     <Compile Include="src\File_op\File_Util\_lseek.c" />
+    <Compile Include="src\File_op\File_Util\_write.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\include\fs.h" />
