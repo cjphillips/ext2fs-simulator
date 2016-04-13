@@ -20,7 +20,7 @@ int mount_root()
 
     root_dev = line; // the device to be operated on
 
-    dev = open(root_dev, O_RDWR);
+    dev = open(root_dev, O_RDWR);  // system's open! not to be confused with _open
     if(dev < 0) {
       printf("Failed.\n");
       printf("Could not open \"%s\".\n", root_dev);
@@ -60,19 +60,22 @@ int mount_root()
   
   strcpy(mp->name, root_dev);
   strcpy(mp->mount_name, "/");
-  
+
   /* Call iget() */
   root = iget(dev, 2);       // Get Root's Inode
   strcpy(root->name, "/");
+
   mp->mounted_inode = root;  
   root->mount_ptr = mp;
 
-  printf("Successful.\n");
-  printf("Device \"%s\" : Mounted on /\n", root_dev);
+  printf("Successful.\n\n");
+  printf("<---------------------------------------------------DEVICE INFO---->\n");
+  printf(" Device \"%s\" : Mounted on /\n", root_dev);
   printf("  # of Blocks ......... %d\n", nblocks);
   printf("  # of Free Blocks .... %d\n", bfree);
   printf("  # of Inodes ......... %d\n", ninodes);
   printf("  # of Free Inodes .... %d\n", ifree);
+  printf("<------------------------------------------------------------------>\n\n");
 
   return 0;
 }

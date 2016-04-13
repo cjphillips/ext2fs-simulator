@@ -27,28 +27,10 @@ int _close ()
 
     if (fd >= NFD)
     {
-      printf("\"%d\" : Not within specified range. (Valid: 0-%d)", fd, NFD - 1);
+      printf("\"%d\" : Not within specified range. (Valid: 0-%d)\n", fd, NFD - 1);
       return -3;
     }
   }
 
-  oftp = running->fd[fd]; // Get the reference to the file descriptor
-  if (!oftp)
-  {
-    printf("\"%d\" : not opened or in use.\n", fd);
-    return -4;
-  }
-
-  running->fd[fd] = 0;    // Close the reference in the running process
-  oftp->ref_count--;      // Remove a reference count (still may not be zero for READ-ONLY cases)
-
-  if(oftp->ref_count > 0) // Still open elsewhere
-  {
-    return 0;
-  }
-
-  mip = oftp->inode_ptr;
-  iput(mip);
-
-  return 0;
+  return __close(fd);
 }

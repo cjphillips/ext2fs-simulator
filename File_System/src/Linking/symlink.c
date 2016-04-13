@@ -18,9 +18,9 @@ int symlink()
     return -3;
   }
 
-  char old[60], new[INODE_NAME], buf[BLKSIZE];              // The data block of the new link can only hold 60 bytes
-  int n_ino, o_ino, dev = running->cwd->dev;
-  MINODE *mip_old, *mip_new;
+  char old[60], new[INODE_NAME], buf[BLKSIZE], parent_path[INODE_NAME*2];              // The data block of the new link can only hold 60 bytes
+  int n_ino, o_ino, p_ino, dev = running->cwd->dev;
+  MINODE *mip_old, *mip_new, *new_pip;
 
   if(out[1][0] == '/')
   {
@@ -29,6 +29,7 @@ int symlink()
 
   strncpy(old, out[1], 58);
   strcpy(new, out[2]);
+  strcpy(parent_path, dirname(out[2]));
   old[59] = 0;
 
   o_ino = get_inode(old, &dev);
@@ -37,16 +38,15 @@ int symlink()
     return o_ino;
   }
 
-  char arg[INODE_NAME];
-  strcpy(arg, "creat ");
-  arg[6] = 0;
-  strcat(arg, new);
-  tokenize(arg, " ");
-
-  if ((_creat()) < 0)                         // Create the new file
+  p_ino = get_inode(parent_path, &dev);
+  if (p_ino < 0)
   {
-    return -3;
+    return p_ino;
   }
+  new_pip = iget(dev, p_ino);
+
+  __creat(new_pip, new, LNK);
+  iput(new_pip);
 
   n_ino = get_inode(new, &dev);
   if(n_ino < 0)
@@ -58,9 +58,6 @@ int symlink()
   mip_old = iget(dev, o_ino);
 
   // TODO : check that devices are the same, cannot link over devices
-
-  mip_new->Inode.i_mode = LNK;
-  mip_new->dirty = TRUE;
 
   int bno = balloc();
   mip_new->Inode.i_block[0] = bno;

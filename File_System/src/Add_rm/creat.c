@@ -1,7 +1,5 @@
 ﻿#include "../include/fs.h"
 
-void __creat  (MINODE *pip, char *name);
-
 int _creat()
 {
   if(numTokens < 2) { // no name provided
@@ -46,7 +44,7 @@ int _creat()
     return -5;
   }
 
-  __creat(pip, base);
+  __creat(pip, base, REG_FILE);
 
   if (DEBUGGING)
     debug_dir(pip);
@@ -59,7 +57,7 @@ int _creat()
   return 0;
 }
 
-void __creat(MINODE *pip, char *name)
+void __creat(MINODE *pip, char *name, int type)
 {
   char buf[BLKSIZE];
 
@@ -70,7 +68,7 @@ void __creat(MINODE *pip, char *name)
   ip = &mip->Inode;
 
   /* Set the new inode's contents */
-  ip->i_mode = REG_FILE;                      // DIR type
+  ip->i_mode = type;                          // REG_FILE type
   ip->i_uid = running->uid;                   // User ID
   ip->i_gid = running->gid;                   // Group ID
   ip->i_size = 0;                             // no blocks, no size

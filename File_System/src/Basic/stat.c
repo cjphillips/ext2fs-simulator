@@ -27,7 +27,7 @@ int _stat()
 
   mip = iget(dev, ino);
 
-  printf("<------------------------------------------------------STAT---->\n");
+  printf("<----------------------------------------------------------STAT---->\n");
   printf("  Name: \"%s\"\n\n", name);
   printf("            Device:  %d\n", mip->dev);
   printf("           Inumber:  %d\n", mip->ino);
@@ -40,8 +40,8 @@ int _stat()
   printf("     # Data Blocks:  %d\n", mip->Inode.i_blocks);
   printf("       Last Access:  %s\n", ctime((time_t *)&mip->Inode.i_atime));
   printf("          Last Mod:  %s\n", ctime((time_t *)&mip->Inode.i_mtime));
-  printf("   Last Status Chg:  %s\n\n", ctime((time_t *)&mip->Inode.i_ctime));
-  printf("<-------------------------------------------------------------->\n");
+  printf("   Last Status Chg:  %s\n", ctime((time_t *)&mip->Inode.i_ctime));
+  printf("<------------------------------------------------------------------>\n");
 
   iput(mip);
 

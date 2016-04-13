@@ -182,6 +182,7 @@ int _mkdir ();
 int _rmdir ();
 int _creat ();
 int _unlink ();
+void __creat(MINODE *pip, char *name, int type);
 
 /* LINKING OPERATIONS -> Linking*/
 int link ();
@@ -198,6 +199,14 @@ int _lseek ();
 int cat ();
 int cp ();
 int mv ();
+
+/* FILE UTILITY -> File_op/File_Util */
+int __close (int fd);
+int __open  (char *file, int mode);
+int __read  (int fd, char buf[], int nbytes);
+int __write (int fd, char buf[], int nbytes);
+
+
 /*------------------------------------------*/
 /*-------------LEVEL THREE------------------*/
 /* MOUNTING OPERATIONS -> MOUNTING */

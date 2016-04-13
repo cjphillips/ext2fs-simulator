@@ -4,7 +4,6 @@ int _lseek ()
 {
   int fd = -1;
   int position = -1;
-  OFT *oftp = 0;
 
   if (!out[1])  // still need both arguments
   {
@@ -50,19 +49,5 @@ int _lseek ()
     }
   }
 
-  oftp = running->fd[fd]; // Get the reference to the file descriptor
-  if (!oftp)
-  {
-    printf("\"%d\" : not opened or in use.\n", fd);
-    return -6;
-  }
-  if (oftp->offset < position)
-  {
-    printf("Provided position would move beyond current file bounds.\n");
-    return -7;
-  }
-  int prev_offset = oftp->offset;
-  oftp->offset = position;
-
-  return prev_offset;
+  return __lseek(fd, position);
 }

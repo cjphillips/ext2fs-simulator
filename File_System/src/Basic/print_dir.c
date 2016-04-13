@@ -79,8 +79,8 @@ void print_dir(MINODE *dir, int dev)
         }
         else
         {
-          printf("%s -> ", temp);
-          printf("%s%s%s", symColor, basename(link), endColor);
+          printf("%s%s%s -> ", symColor, temp, endColor);
+          printf("%s", basename(link));
         }
       }
       else if ((at->Inode.i_mode & 0xF000) == 0x4000) // directory

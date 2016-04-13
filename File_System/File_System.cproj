@@ -84,6 +84,10 @@
     <Compile Include="src\Debug\print_oft.c" />
     <Compile Include="src\shutdown.c" />
     <Compile Include="src\Utility\menu.c" />
+    <Compile Include="src\File_op\File_Util\_read.c" />
+    <Compile Include="src\File_op\File_Util\_close.c" />
+    <Compile Include="src\File_op\File_Util\_open.c" />
+    <Compile Include="src\File_op\File_Util\_lseek.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\include\fs.h" />
@@ -107,5 +111,6 @@
     <Folder Include="src\Init\" />
     <Folder Include="src\File_op\" />
     <Folder Include="src\Mounting\" />
+    <Folder Include="src\File_op\File_Util\" />
   </ItemGroup>
 </Project>

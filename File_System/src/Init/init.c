@@ -46,5 +46,5 @@ int init()
 
   nproc = 2;
   
-  printf("Initialization Successful.\n");
+  printf("Initialization Successful.\n\n");
 }
