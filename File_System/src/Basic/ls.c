@@ -19,7 +19,7 @@ int ls()
     }
     strncpy(name, basename(out[1]), INODE_NAME);
 
-    if ((ino = get_inode(out[1], &dev)) < 0)
+    if ((ino = get_inode(out[1], &dev, FALSE)) < 0)
     {
       return ino;
     }

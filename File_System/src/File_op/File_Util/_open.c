@@ -15,8 +15,7 @@ int __open (char *file, int mode)
     dev = running->cwd->dev;
   }
 
-  ino = get_inode(file, &dev);
-
+  ino = get_inode(file, &dev, FALSE);
   if (ino < 0)
   {
     return ino;
@@ -37,7 +36,7 @@ int __open (char *file, int mode)
       link[60] = 0;
       file = link;
       iput(mip);
-      ino = get_inode(link, &dev);
+      ino = get_inode(link, &dev, FALSE);
       if (ino < 0)
       {
         return ino;

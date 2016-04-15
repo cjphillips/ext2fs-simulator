@@ -45,7 +45,7 @@ int _chmod ()
   strncpy(perm, out[1], 20);
   perm[19] = 9;
 
-  ino = get_inode(out[2], &dev);
+  ino = get_inode(out[2], &dev, FALSE);
   if(ino < 0)
   {
     return ino;

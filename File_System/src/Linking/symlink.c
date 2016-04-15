@@ -32,13 +32,13 @@ int symlink()
   strcpy(parent_path, dirname(out[2]));
   old[59] = 0;
 
-  o_ino = get_inode(old, &dev);
+  o_ino = get_inode(old, &dev, FALSE);
   if(o_ino < 0)
   {
     return o_ino;
   }
 
-  p_ino = get_inode(parent_path, &dev);
+  p_ino = get_inode(parent_path, &dev, FALSE);
   if (p_ino < 0)
   {
     return p_ino;
@@ -48,7 +48,7 @@ int symlink()
   __creat(new_pip, new, LNK);
   iput(new_pip);
 
-  n_ino = get_inode(new, &dev);
+  n_ino = get_inode(new, &dev, FALSE);
   if(n_ino < 0)
   {
     return n_ino;

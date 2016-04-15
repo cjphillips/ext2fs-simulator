@@ -21,6 +21,7 @@ int __close (int fd)
   }
 
   mip = oftp->inode_ptr;
+  oftp->inode_ptr = 0;
   iput(mip);
 
   return 0;

@@ -20,6 +20,7 @@ int cat ()
     return fd;
   }
 
+  int total_read = 0;
   char *cp;
   while ((n = __read(fd, buf, BLKSIZE)) > 0)
   {
@@ -35,6 +36,7 @@ int cat ()
       *cp++;
     }
     bzero(buf, BLKSIZE);
+    total_read += n;
   }
 
   __close(fd);
@@ -43,6 +45,8 @@ int cat ()
   {
     return n;
   }
+
+  printf("\n[Total Bytes Read: %d]\n", total_read);
 
   return 0;
 }

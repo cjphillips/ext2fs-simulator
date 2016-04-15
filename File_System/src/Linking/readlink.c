@@ -20,7 +20,7 @@ int readlink()
     dev = root->dev;
   }
 
-  ino = get_inode(out[1], &dev);   // Get ino from path
+  ino = get_inode(out[1], &dev, FALSE);   // Get ino from path
   mip = iget(dev, ino);            // Get inode into memory
 
   if (mip->Inode.i_mode != LNK)

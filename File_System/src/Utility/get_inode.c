@@ -1,6 +1,6 @@
 ﻿#include "../include/fs.h"
 
-int get_inode(char *path, int *device)
+int get_inode(char *path, int *device, bool quiet)
 {
   /* DESTOYS THE CURRENT out VAR */
   int i = 0, j = 0;
@@ -53,7 +53,8 @@ int get_inode(char *path, int *device)
     ino = search(ip, out[i]);
     if(ino < 0) {
       errno = 2; // no such file or directory
-      printf("\"%s\" : %s.\n", out[i], strerror(errno)); 
+      if (!quiet)
+        printf("\"%s\" : %s.\n", out[i], strerror(errno)); 
       iput(ip);
       return -1;
     }
@@ -63,7 +64,8 @@ int get_inode(char *path, int *device)
     
     if(i < numTokens && ip->Inode.i_mode != DIRECTORY) {
       errno = 20; // not a directory
-      printf("\"%s\" : %s\n", out[i], strerror(errno)); 
+      if (!quiet)
+        printf("\"%s\" : %s\n", out[i], strerror(errno)); 
       iput(ip);
       return -2;
     }

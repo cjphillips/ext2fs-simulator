@@ -25,7 +25,8 @@ int __read(int fd, char buf[], int nbytes)
   remain = BLKSIZE - start;                                // Find the remaining bytes on this block
   avail  = oftp->inode_ptr->Inode.i_size - oftp->offset;   // Find the available bytes left in the file
 
-  int blk;
+  int blk, *b_ptr = 0, *b_ptr2 = 0;
+  char blk_buf[BLKSIZE], blk_buf2[BLKSIZE];
 
   while(nbytes && avail) // begin reading
   {
@@ -35,9 +36,40 @@ int __read(int fd, char buf[], int nbytes)
     }
     else if (lblk >= 12 && lblk < 256 + 12)   // single indirect
     {
+      if (b_ptr) // If the pointer has already been given a value, just increment
+      {
+        *b_ptr++;
+      }
+      else
+      {
+        get_block(oftp->inode_ptr->dev, oftp->inode_ptr->Inode.i_block[12], blk_buf);
+        b_ptr = (int *)blk_buf;
+      }
+      blk = *b_ptr;
     }
     else                                      // double indirect 
     {
+      if (b_ptr2) // already grabbed the double indirect block
+      {
+        if ((char *)b_ptr2 < blk_buf + BLKSIZE) // still within current block range
+        {
+          blk = *b_ptr2;
+        }
+        else // move first pointer to next block, have second pointer point to it 
+        {
+          *b_ptr++;
+           get_block(oftp->inode_ptr->dev, *b_ptr, blk_buf2);
+           b_ptr2 = (int *)blk_buf2;
+        }
+        lblk = *b_ptr2;
+      }
+      else // initial double indirect block access
+      {
+        get_block(oftp->inode_ptr->dev, oftp->inode_ptr->Inode.i_block[13], blk_buf);
+        b_ptr = (int *)blk_buf;
+        get_block(oftp->inode_ptr->dev, *b_ptr, blk_buf2);
+        b_ptr2 = (int *)blk_buf2;
+      }
     }
 
     get_block(oftp->inode_ptr->dev, blk, readbuf);  // Get the referenced data block

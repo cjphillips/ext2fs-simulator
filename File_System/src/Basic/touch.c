@@ -15,7 +15,7 @@ int touch ()
   strncpy(name, basename(out[1]), INODE_NAME);
   strncpy(path, out[1], INODE_NAME*2);
 
-  ino = get_inode(out[1], &dev);
+  ino = get_inode(out[1], &dev, FALSE);
   if (ino < 0) // If no file is present, create it
   {
     return ino;

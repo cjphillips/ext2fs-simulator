@@ -1,6 +1,6 @@
 ﻿#include "../include/fs.h"
 
-void __mkdir  (MINODE *pip, char *name);
+int __mkdir  (MINODE *pip, char *name);
 
 int _mkdir()
 {
@@ -37,7 +37,7 @@ int _mkdir()
     printf("Path : %s\nBase : %s\n", dirs, base);
 
   // get the parent's inode, starting from the root OR the cwd
-  if((p_ino = get_inode(dirs, &dev)) < 0) 
+  if((p_ino = get_inode(dirs, &dev, FALSE)) < 0) 
   {
     return p_ino;
   }
@@ -50,7 +50,12 @@ int _mkdir()
       return -5;
   }
 
-  __mkdir(pip, base);
+  int r;
+  r = __mkdir(pip, base);
+  if (r < 0)
+  {
+    return r;
+  }
 
   if (DEBUGGING)
     debug_dir(pip);
@@ -64,12 +69,22 @@ int _mkdir()
   return 0;
 }
 
-void __mkdir(MINODE *pip, char *name)
+int __mkdir(MINODE *pip, char *name)
 {
   char buf[BLKSIZE];
 
   int n_bno = balloc();
+  if (n_bno == 0)
+  {
+    printf("Insufficient space. Consider cleaning drive.\n");
+    return -1;
+  }
   int n_ino = ialloc();
+  if (n_ino == 0)
+  {
+    printf("Insufficient space. Consider cleaning drive.\n");
+    return -2;
+  }
   int i;
 
   mip = iget(pip->dev, n_ino);

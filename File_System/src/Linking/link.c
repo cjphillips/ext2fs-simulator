@@ -27,13 +27,13 @@ int link()
   strcpy(new_name, basename(out[2]));
   strcpy(path, dirname (out[2]));
 
-  ino = get_inode(out[1], &dev);
+  ino = get_inode(out[1], &dev, FALSE);
   if (ino < 0) // Inode not found
   {
     return ino;
   }
 
-  n_ino_p = get_inode(path, &dev);
+  n_ino_p = get_inode(path, &dev, FALSE);
   if (n_ino_p < 0)
   {
     return n_ino_p;

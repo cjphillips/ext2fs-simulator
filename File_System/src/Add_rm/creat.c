@@ -31,7 +31,7 @@ int _creat()
     printf("Path : %s\nBase : %s\n", dirs, base);
 
   // get the parent's inode, starting from the root OR the cwd
-  if((p_ino = get_inode(dirs, &dev)) < 0) 
+  if((p_ino = get_inode(dirs, &dev, FALSE)) < 0) 
   {
     return p_ino;
   }

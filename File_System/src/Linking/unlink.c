@@ -33,7 +33,7 @@ int _unlink()
     printf("Path : %s\nBase : %s\n", dirs, base);
 
   // get the parent's inode, starting from the root OR the cwd
-  if ((ino = get_inode(dirs, &dev)) < 0) {
+  if ((ino = get_inode(dirs, &dev, FALSE)) < 0) {
     return ino;
   }
 
@@ -97,13 +97,18 @@ int _unlink()
 void __unlink (MINODE *toRemove, MINODE *pip, char *name)
 {
   int i = 0;
-
+  /*
   while(i < 12 && mip->Inode.i_block[i])  // Deallocate all data blocks
   {
     bdealloc(mip->Inode.i_block[i]);
+    mip->Inode.i_block[i] = 0;
     i++;
   }
+  mip->Inode.i_size = 0;
   idealloc(mip->ino);                    // Deallocate this inodes inumber 
+  */
+
+  truncate(toRemove);
 
   remove_name(pip, toRemove->ino, name);
 }

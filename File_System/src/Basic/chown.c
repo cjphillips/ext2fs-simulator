@@ -37,7 +37,7 @@ int _chown ()
   int ino, dev = running->cwd->dev;
   MINODE *mip;
 
-  ino = get_inode(out[2], &dev);
+  ino = get_inode(out[2], &dev, FALSE);
   if(ino < 0)
   {
     return ino;

@@ -19,7 +19,7 @@ int _stat()
 
   strncpy(name, basename(out[1]), INODE_NAME);
 
-  ino = get_inode(out[1], &dev);
+  ino = get_inode(out[1], &dev, FALSE);
   if(ino < 0)
   {
     return ino;
@@ -37,7 +37,7 @@ int _stat()
   printf("               GID:  %d\n", mip->Inode.i_gid);
   printf("              Size:  %d\n", mip->Inode.i_size);
   printf("        Block Size:  %d\n", BLKSIZE);
-  printf("     # Data Blocks:  %d\n", mip->Inode.i_blocks);
+  printf("     # Data Blocks:  %d (or %d 512KB Sectors)\n", mip->Inode.i_blocks/2, mip->Inode.i_blocks);
   printf("       Last Access:  %s\n", ctime((time_t *)&mip->Inode.i_atime));
   printf("          Last Mod:  %s\n", ctime((time_t *)&mip->Inode.i_mtime));
   printf("   Last Status Chg:  %s\n", ctime((time_t *)&mip->Inode.i_ctime));

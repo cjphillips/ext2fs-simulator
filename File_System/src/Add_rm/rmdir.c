@@ -33,7 +33,7 @@ int _rmdir()
     printf("Path : %s\nBase : %s\n", dirs, base);
 
   // get the parent's inode, starting from the root OR the cwd
-  if ((ino = get_inode(dirs, &dev)) < 0) {
+  if ((ino = get_inode(dirs, &dev, FALSE)) < 0) {
     return ino;
   }
 

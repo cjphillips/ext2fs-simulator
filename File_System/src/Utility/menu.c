@@ -27,7 +27,8 @@ int menu ()
   printf("       cp  src dest\n");
   printf("       mv  src dest\n");
   printf("     read  file_desc\n");
-  printf("    write  file_desc\n\n");
+  printf("    write  file_desc\n");
+  printf("     poft\n\n");
   printf("  Mounting:\n");
   printf("    mount  dev\n");
   printf("   umount  dev\n");
