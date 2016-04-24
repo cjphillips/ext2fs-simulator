@@ -8,12 +8,12 @@ int menu ()
   printf("       cd [path]\n");
   printf("      pwd\n");
   printf("    mkdir  path\n");
-  printf("    rmdir  path\n");
+  printf("    rmdir  path\n\n");
   printf("    chgrp  grp  path\n");
   printf("    chown  user path\n");
   printf("    chmod  perm path\n\n");
   printf("    creat  path\n");
-  printf("   unlink  path\n\n");
+  printf("       rm  path\n\n");
 
   printf("  File Operations:\n");
   printf("     link  file link_name\n");

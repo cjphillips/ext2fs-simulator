@@ -55,7 +55,7 @@ int cp ()
     return gd;
   }
 
-  int n = 0;
+  int n = 0, counter = 0;
   char cp_buf[BLKSIZE];
   bzero(cp_buf, BLKSIZE);
 
@@ -63,8 +63,11 @@ int cp ()
   {
     if (n < 0)
       break;
+
     __write(gd, cp_buf, n);                       // Write to the destination file
+
     bzero(cp_buf, BLKSIZE);
+    counter++;
   }
 
   __close(fd);

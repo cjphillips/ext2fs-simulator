@@ -91,6 +91,7 @@ int __write(int fd, char buf[], int nbytes)
       }
 
       blk = *b_ptr;
+      put_block(oftp->inode_ptr->dev, oftp->inode_ptr->Inode.i_block[12], blkbuf);
     }
     else                                      // double indirect 
     {

@@ -104,11 +104,12 @@ void __unlink (MINODE *toRemove, MINODE *pip, char *name)
     mip->Inode.i_block[i] = 0;
     i++;
   }
-  mip->Inode.i_size = 0;
-  idealloc(mip->ino);                    // Deallocate this inodes inumber 
   */
 
   _truncate(toRemove);
+
+  mip->Inode.i_size = 0;
+  idealloc(mip->ino);                    // Deallocate this inodes inumber 
 
   remove_name(pip, toRemove->ino, name);
 }
