@@ -40,6 +40,11 @@ int _unlink()
   pip = iget(dev, ino);
 
   ino = search(pip, base);
+  if (ino < 1) { // inode not found
+    printf("\"%s\" : does not exist\n", base);
+    iput(pip);
+    return -5;
+  }
 
   if (DEBUGGING) {
     printf("Parent ino: %d\n, Base ino: %d\n", pip->ino, ino);
@@ -47,7 +52,7 @@ int _unlink()
 
   mip = iget(mp->dev, ino); // get the inode to remove
 
-  if (mip->Inode.i_mode != REG_FILE && mip->Inode.i_mode != LNK)
+  if (((mip->Inode.i_mode & 0xF000) != 0x8000) && ((mip->Inode.i_mode & 0xF000) != 0xA000))
   {
     printf("\"%s\" : Not a file.\n", base);
     iput(mip);
@@ -80,6 +85,8 @@ int _unlink()
       __unlink(mip, pip, base);
     }
 
+    remove_name(pip, mip->ino, base);
+
     if (DEBUGGING)
       debug_dir(pip);
 
@@ -110,6 +117,4 @@ void __unlink (MINODE *toRemove, MINODE *pip, char *name)
 
   mip->Inode.i_size = 0;
   idealloc(mip->ino);                    // Deallocate this inodes inumber 
-
-  remove_name(pip, toRemove->ino, name);
 }

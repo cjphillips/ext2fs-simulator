@@ -53,7 +53,7 @@ int _rmdir()
 
   mip = iget(mp->dev, ino); // get the inode to remove
 
-  if (mip->Inode.i_mode != DIRECTORY && mip->Inode.i_mode != 16832)
+  if ((mip->Inode.i_mode & 0xF000) != 0x4000)
   {
     printf("\"%s\" : Not a directory.\n", base);
     iput(mip);
