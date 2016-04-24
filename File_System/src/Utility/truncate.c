@@ -1,6 +1,6 @@
 ﻿#include "../include/fs.h"
 
-void truncate (MINODE *mip)
+void _truncate (MINODE *mip)
 {
   if (mip->Inode.i_mode != REG_FILE)
   {

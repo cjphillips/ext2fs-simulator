@@ -1,6 +1,6 @@
 ﻿#include "../include/fs.h"
 
-int symlink()
+int _symlink()
 {
   if (!out[1])
   {

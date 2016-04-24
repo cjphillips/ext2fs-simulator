@@ -8,6 +8,8 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <libgen.h>
+#include <unistd.h>
+#include <sys/types.h>
 
 #include <errno.h>
 #include <string.h>
@@ -145,8 +147,14 @@ int init ();
 
 /* UTILITY OPERATIONS -> Utility */
 void get_block (int fd, int blk, char buf[]);
+void put_block(int fd, int blk, char buf[]);
 int findino(MINODE *mip, int *ino, int *p_ino);
 int findname (INODE *parent, int ino_at, char *name);
+
+int test_bit(char buf[], int bit);
+void clear_bit(char buf[], int bit);
+void set_bit(char buf[], int bit);
+
 MINODE *iget (int dev, int ino);
 void iput (MINODE *mip);
 int tokenize (char *path, char *delim);
@@ -163,6 +171,7 @@ void remove_name (MINODE *pip, int d_ino, char *name);
 bool isEmpty (MINODE *at);
 void IncFree (bool inode);
 void decFree (bool inode);
+void _truncate (MINODE *mip);
 int menu ();
 
 /*--------------LEVEL ONE-------------------*/
@@ -185,9 +194,9 @@ int _unlink ();
 void __creat(MINODE *pip, char *name, int type);
 
 /* LINKING OPERATIONS -> Linking*/
-int link ();
-int symlink ();
-int readlink ();
+int _link ();
+int _symlink ();
+int _readlink ();
 /*------------------------------------------*/
 /*--------------LEVEL TWO-------------------*/
 /* FILE OPERATIONS -> File_op */
@@ -205,6 +214,7 @@ int __close (int fd);
 int __open  (char *file, int mode);
 int __read  (int fd, char buf[], int nbytes);
 int __write (int fd, char buf[], int nbytes);
+int __lseek (int fd, int position);
 
 
 /*------------------------------------------*/

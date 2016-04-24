@@ -1,6 +1,6 @@
 ﻿#include "../include/fs.h"
 
-int readlink()
+int _readlink()
 {
   if (!out[1])
   {

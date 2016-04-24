@@ -1,6 +1,6 @@
 ﻿#include "../include/fs.h"
 
-map(char buf[], int len)
+void map(char buf[], int len)
 {
   int  i;
 

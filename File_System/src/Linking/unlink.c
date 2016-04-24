@@ -108,7 +108,7 @@ void __unlink (MINODE *toRemove, MINODE *pip, char *name)
   idealloc(mip->ino);                    // Deallocate this inodes inumber 
   */
 
-  truncate(toRemove);
+  _truncate(toRemove);
 
   remove_name(pip, toRemove->ino, name);
 }

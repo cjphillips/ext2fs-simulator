@@ -96,7 +96,7 @@ int __open (char *file, int mode)
   switch(mode) // Set the offset for the file accordingly
   {
     case 0: oftp->offset = 0; break;                 // READ: begin reading at the beginning of the file
-    case 1: oftp->offset = 0; truncate(mip); break;  // WRITE: Remove the file's contents and begin writing at beginning.
+    case 1: oftp->offset = 0; _truncate(mip); break;  // WRITE: Remove the file's contents and begin writing at beginning.
     case 2: oftp->offset = 0; break;                 // READ-WRITE: Read from the beginning of the file, but do not remove contents.
     case 3: oftp->offset = mip->Inode.i_size; break; // APPEND: Begin writing at the end of the file.
     default: iput(mip); return -2;                   // The default case should never be hit; already handled above.

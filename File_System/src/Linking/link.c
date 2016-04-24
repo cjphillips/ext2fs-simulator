@@ -1,6 +1,6 @@
 ﻿#include "../include/fs.h"
 
-int link()
+int _link()
 {
   // TODO: Check that user is not attempting to link across devices.
 
