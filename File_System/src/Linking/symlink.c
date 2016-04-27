@@ -59,7 +59,7 @@ int _symlink()
 
   // TODO : check that devices are the same, cannot link over devices
 
-  int bno = balloc();
+  int bno = balloc(dev);
   mip_new->Inode.i_block[0] = bno;
   mip_new->dirty = TRUE;
 

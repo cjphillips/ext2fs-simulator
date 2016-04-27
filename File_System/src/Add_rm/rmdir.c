@@ -110,10 +110,10 @@ void __rmdir  (MINODE *toRemove, MINODE *pip, char *name)
 
   while(i < 12 && toRemove->Inode.i_block[i])  // Deallocate all data blocks
   {
-    bdealloc(toRemove->Inode.i_block[i]);
+    bdealloc(toRemove->Inode.i_block[i], toRemove->dev);
     i++;
   }
-  idealloc(toRemove->ino);                    // Deallocate this inodes inumber
+  idealloc(toRemove->ino, toRemove->dev);                    // Deallocate this inodes inumber
 
   remove_name(pip, toRemove->ino, name);
 }

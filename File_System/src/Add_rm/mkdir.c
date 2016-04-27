@@ -73,13 +73,13 @@ int __mkdir(MINODE *pip, char *name)
 {
   char buf[BLKSIZE];
 
-  int n_bno = balloc();
+  int n_bno = balloc(pip->dev);
   if (n_bno == 0)
   {
     printf("Insufficient space. Consider cleaning drive.\n");
     return -1;
   }
-  int n_ino = ialloc();
+  int n_ino = ialloc(pip->dev);
   if (n_ino == 0)
   {
     printf("Insufficient space. Consider cleaning drive.\n");
@@ -115,7 +115,7 @@ int __mkdir(MINODE *pip, char *name)
   /* Set block contents (initial data block '.' and '..' */
   char *cp;
 
-  get_block(mp->dev, n_bno, buf);      // Read block
+  get_block(pip->dev, n_bno, buf);      // Read block
   cp = buf;
   dp = (DIR *)buf;
 
@@ -123,7 +123,7 @@ int __mkdir(MINODE *pip, char *name)
   dp->inode     = n_ino;               // Set the new inode number
   dp->rec_len   = 12;                  // Set this record's len
   dp->name_len  = 1;                   // '.' is only one char long
-  dp->file_type = DIRECTORY;           // DIR type file
+  dp->file_type = 0x41ED;           // DIR type file
   strncpy(dp->name, ".", 1);           // write the name
 
   cp += dp->rec_len;
@@ -133,10 +133,10 @@ int __mkdir(MINODE *pip, char *name)
   dp->inode     = pip->ino;            // set parent's inode
   dp->rec_len   = 1012;                // the rest of the block
   dp->name_len  = 2;                   // ".." is only two char long
-  dp->file_type = DIRECTORY;           // parent is a directory
+  dp->file_type = 0x41ED;           // parent is a directory
   strncpy(dp->name, "..", 2);          // write the name
   
-  put_block(mp->dev, n_bno, buf);      // Write block back
+  put_block(pip->dev, n_bno, buf);      // Write block back
 
   enter_name(pip, n_ino, name, 0x41ED);
 }

@@ -14,7 +14,7 @@ int mv ()
   }
   if (strcmp(out[1], out[2]) == 0)
   {
-    printf("Cannot copy a file to itself.\n");
+    printf("Cannot move a file into itself.\n");
     return -3;
   }
 
@@ -65,10 +65,10 @@ int mv ()
 
     remove_name(s_pip, mip->ino, basename(src));
   }
-
-    iput(mip);
-    iput(d_pip);
-    iput(s_pip);
+  // TODO: moving files across devices
+  iput(mip);
+  iput(d_pip);
+  iput(s_pip);
 
   return 0;
 }

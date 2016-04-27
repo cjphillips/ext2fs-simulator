@@ -12,7 +12,7 @@ void _truncate (MINODE *mip)
 
   while(i < 12 && mip->Inode.i_block[i]) // remove first 12 direct blocks
   {
-    bdealloc(mip->Inode.i_block[i]);
+    bdealloc(mip->Inode.i_block[i], mip->dev);
     mip->Inode.i_block[i] = 0;
     i++;
   }
@@ -24,11 +24,11 @@ void _truncate (MINODE *mip)
 
     while(*bptr && (char *)bptr < buf + BLKSIZE)
     {
-      bdealloc(*bptr);
+      bdealloc(*bptr, mip->dev);
       *bptr = 0;
       *bptr++;
     }
-    bdealloc(mip->Inode.i_block[i]); // Remove the block of pointers itself
+    bdealloc(mip->Inode.i_block[i], mip->dev); // Remove the block of pointers itself
 
     mip->Inode.i_block[i] = 0;
     i++;
@@ -47,15 +47,15 @@ void _truncate (MINODE *mip)
 
       while(bptr_2 && (char *)bptr_2 < buf_2 + BLKSIZE) // deallocate each block that this pointer (bptr) points to 
       {
-        bdealloc(*bptr_2);
+        bdealloc(*bptr_2, mip->dev);
         *bptr_2 = 0;
         *bptr_2++;
       }
-      bdealloc(*bptr);
+      bdealloc(*bptr, mip->dev);
       *bptr = 0;
       *bptr++;
     }
-    bdealloc(mip->Inode.i_block[i]);
+    bdealloc(mip->Inode.i_block[i], mip->dev);
 
      mip->Inode.i_block[i] = 0;
     i++;

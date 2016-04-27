@@ -41,14 +41,12 @@ int get_inode(char *path, int *device, bool quiet)
   }
  
   while(i < numTokens) {
-    if(strcmp(out[i], ".") == 0)
-    {
-      iput(ip);
-      return ino;
-    }
 
     iput(ip);
-    ip = iget(*device, ino);
+    if(strcmp(out[i], ".") == 0)
+    {
+      return ino;
+    }
     
     ino = search(ip, out[i]);
     if(ino < 0) {
@@ -57,6 +55,42 @@ int get_inode(char *path, int *device, bool quiet)
         printf("\"%s\" : %s.\n", out[i], strerror(errno)); 
       iput(ip);
       return -1;
+    }
+
+    ip = iget(*device, ino);
+
+    if (ip->mounted) // this *directory* is mounted by a device (DOWNWARD TRAVERSAL)
+    {
+      *device = ip->mount_ptr->dev; // The device has changed - this number will be needed outside of this function as well
+
+      iput(ip);
+      ip = iget(*device, 2);        // Get the root inode from the mounted device
+
+      ino = ip->ino;
+    }
+    else if (ip->ino == 2 && ip->dev != root->dev) // This is the root of the current mounted device (UPWARD TRAVERSAL)
+    {
+      MINODE *mount_mip = 0;
+      while(j < NMOUNT)                            // Search for this device in the mount tab
+      {
+        if (mounttab[j].dev == ip->dev)
+        {
+          mount_mip = mounttab[j].mounted_inode;
+          break;
+        }
+
+        j++;
+      }
+
+      *device = mount_mip->dev;                    // Change to this inodes device
+
+      iput(ip);
+      ip = iget(*device, mount_mip->ino);
+      ino = ip->ino;
+      if (strcmp(out[i], "..") == 0)               // Have crossed into the parent device.. must now traverse one more time
+      {
+        ino  = search(ip, "..");
+      }
     }
 
     if(DEBUGGING) 

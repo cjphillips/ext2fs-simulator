@@ -6,7 +6,7 @@ int cd()
 
   if (!out[1] || strcmp(out[1], "/") == 0) { // Changing to home directory
     iput(running->cwd);
-    running->cwd = iget(mp->dev, root->ino);
+    running->cwd = iget(root->dev, root->ino);
     return 0;
   }
   if (strcmp(out[1], ".") == 0) {    // No need to change directory
@@ -15,16 +15,36 @@ int cd()
    
   char *base = basename(out[1]);  // target directory
   char buf[BLKSIZE];
-  int i = 0, ino;
+  int i = 0, ino, dev = running->cwd->dev;
+  MINODE *mip = 0;
 
   if(out[1][0] == '/')
-    mip = iget(mp->dev, root->ino);
+  {
+    dev = root->dev;
+    //mip = iget(dev, root->ino);
+  }
+  /*
   else
-    mip = iget(mp->dev, running->cwd->ino);
+  {
+    mip = iget(dev, running->cwd->ino);
+  }
+  */
 
   if (out[1][0] == '/')
+  {
     from_root = TRUE;
+  }
 
+  ino = get_inode(out[1], &dev, FALSE);
+  if (ino < 0)
+  {
+    return -1;
+  }
+
+  iput(running->cwd);
+  running->cwd = iget(dev, ino);
+
+  /*
   numTokens = tokenize(out[1], "/");
   if(from_root)
     numTokens--;
@@ -59,8 +79,9 @@ int cd()
     printf("\"%s\" : Not a directory.\n", base);
     return -3;
   }
+  */
 
-  running->cwd = mip;
+  //running->cwd = mip;
     
   return 0;
 }

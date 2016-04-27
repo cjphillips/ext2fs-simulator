@@ -53,7 +53,7 @@ void remove_name(MINODE *pip, int d_ino, char *name)
     dp->inode = 0;
     if (prev_dp = 0)                 // first record
     {
-      bdealloc(pip->Inode.i_block[i]); // Remove this block
+      bdealloc(pip->Inode.i_block[i], pip->dev); // Remove this block
       put_block(mp->dev, pip->Inode.i_block[i], buf);
 
       while(pip->Inode.i_block[i + 1]) // Move all blocks down

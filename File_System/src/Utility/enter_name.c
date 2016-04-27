@@ -13,7 +13,7 @@ int enter_name(MINODE *pip, int n_ino, char *name, int type)
   while(pip->Inode.i_block[i + 1]) 
     i++;
 
-  get_block(mp->dev, pip->Inode.i_block[i], buf);
+  get_block(pip->dev, pip->Inode.i_block[i], buf);
   cp = buf;
   dp = (DIR *)buf;
   
@@ -50,10 +50,10 @@ int enter_name(MINODE *pip, int n_ino, char *name, int type)
   }
   else // MUST allocate a new block first
   {
-    int bno = balloc();
+    int bno = balloc(pip->dev);
     pip->Inode.i_block[i + 1] = bno;
 
-    get_block(mp->dev, bno, buf);
+    get_block(pip->dev, bno, buf);
     cp = buf;
     dp = (DIR *)cp;
     i++;                               // Put the new block back instead (one after the current block)
@@ -65,5 +65,5 @@ int enter_name(MINODE *pip, int n_ino, char *name, int type)
   dp->file_type = type;
   strncpy(dp->name, name, dp->name_len);
 
-  put_block(mp->dev, pip->Inode.i_block[i], buf); // THIS WILL CHANGE WHEN TODO IS ENTERED
+  put_block(pip->dev, pip->Inode.i_block[i], buf); // THIS WILL CHANGE WHEN TODO IS ENTERED
 }

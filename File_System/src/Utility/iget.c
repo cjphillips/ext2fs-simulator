@@ -60,7 +60,7 @@ MINODE *iget(int dev, int ino)
 
   findino(mip, &ino, &p_ino);    // get the parent's ino
 
-  if (ino == 2 && p_ino == 2) // ignore when initializing root
+  if (!root && ino == 2 && p_ino == 2) // ignore when initializing root
     return mip;
 
   blk = (p_ino - 1) / INODES_PER_BLOCK + mp->iblock;
@@ -69,7 +69,7 @@ MINODE *iget(int dev, int ino)
   get_block(dev, blk, buf);
   ip = (INODE *)buf + offset;    // Contains the parent inode
 
-  findname(ip, ino, fname);
+  findname(ip, ino, fname, mip->dev);
   strcpy(mip->name, fname);      // copy the found name into the mip's name
   if (DEBUGGING) {
     printf("  with name \"%s\", and parent inode %d\n", mip->name, p_ino);

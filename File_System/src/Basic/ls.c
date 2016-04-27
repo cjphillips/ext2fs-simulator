@@ -10,6 +10,12 @@ int ls()
   if(!out[1] || strcmp(out[1], ".") == 0) // printing the current working directory
   {
     at_dir = iget(dev, running->cwd->ino);
+    if (at_dir->mounted == TRUE) // At the root inode of another device
+    {
+      dev = at_dir->mount_ptr->dev;
+      iput(at_dir);
+      at_dir = iget(dev, 2);
+    }
   }
   else // Get the file path
   {

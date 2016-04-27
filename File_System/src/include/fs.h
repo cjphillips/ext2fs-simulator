@@ -149,21 +149,23 @@ int init ();
 void get_block (int fd, int blk, char buf[]);
 void put_block(int fd, int blk, char buf[]);
 int findino(MINODE *mip, int *ino, int *p_ino);
-int findname (INODE *parent, int ino_at, char *name);
+int findname(INODE *parent, int ino_at, char name[], int dev);
 
 int test_bit(char buf[], int bit);
 void clear_bit(char buf[], int bit);
 void set_bit(char buf[], int bit);
+
+MOUNT *get_mount(int dev);
 
 MINODE *iget (int dev, int ino);
 void iput (MINODE *mip);
 int tokenize (char *path, char *delim);
 int findCmd (char *command);
 int search (MINODE *ip, char *name);
-int ialloc ();
-int balloc ();
-void idealloc (int ino);
-void bdealloc (int bno);
+int ialloc (int dev);
+int balloc (int dev);
+void idealloc (int ino, int dev);
+void bdealloc (int bno, int dev);
 void _free ();
 int get_inode(char *path, int *device, bool quiet);
 int enter_name (MINODE *pip, int n_ino, char *name, int type);

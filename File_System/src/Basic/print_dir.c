@@ -20,7 +20,7 @@ void print_dir(MINODE *dir, int dev)
     if(DEBUGGING) 
       printf("Listing records on block #%d\n", dir->Inode.i_block[j]);
       
-    get_block(dir->dev, dir->Inode.i_block[j], buf);
+    get_block(dev, dir->Inode.i_block[j], buf);
     cp = buf;
     dp = (DIR *)buf;
     
@@ -34,6 +34,10 @@ void print_dir(MINODE *dir, int dev)
       //    iput(at);
       //  continue;
       //}
+      if (at_ino == 17)
+      {
+        printf("");
+      }
       at = iget(dev, at_ino);
     
       if (DEBUGGING) {

@@ -61,7 +61,7 @@ void __creat(MINODE *pip, char *name, int type)
 {
   char buf[BLKSIZE];
 
-  int n_ino = ialloc();  // Allocate a new inode
+  int n_ino = ialloc(pip->dev);  // Allocate a new inode
   int i;
 
   mip = iget(mp->dev, n_ino);

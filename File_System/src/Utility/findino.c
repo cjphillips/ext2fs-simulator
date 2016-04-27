@@ -6,7 +6,7 @@ int findino(MINODE *mip, int *ino, int *p_ino)
   DIR *ddp;
   int i;
 
-  get_block(mp->dev, mip->Inode.i_block[0], buf);
+  get_block(mip->dev, mip->Inode.i_block[0], buf);
   cp = buf;
   ddp = (DIR *)buf;
 
