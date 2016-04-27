@@ -53,7 +53,7 @@ int get_inode(char *path, int *device, bool quiet)
       errno = 2; // no such file or directory
       if (!quiet)
         printf("\"%s\" : %s.\n", out[i], strerror(errno)); 
-      iput(ip);
+      //iput(ip);
       return -1;
     }
 
