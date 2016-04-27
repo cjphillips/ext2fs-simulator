@@ -1,7 +1,5 @@
 ﻿#include "../include/fs.h"
 
-void __unlink (MINODE *toRemove, MINODE *pip, char *name);
-
 int _unlink()
 {
   if(numTokens < 2) { // no name provided

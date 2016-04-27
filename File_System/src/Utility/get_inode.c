@@ -41,14 +41,15 @@ int get_inode(char *path, int *device, bool quiet)
   }
  
   while(i < numTokens) {
-
-    iput(ip);
     if(strcmp(out[i], ".") == 0)
     {
+      iput(ip);
       return ino;
     }
     
     ino = search(ip, out[i]);
+    iput(ip);
+
     if(ino < 0) {
       errno = 2; // no such file or directory
       if (!quiet)
@@ -56,7 +57,7 @@ int get_inode(char *path, int *device, bool quiet)
       //iput(ip);
       return -1;
     }
-
+   
     ip = iget(*device, ino);
 
     if (ip->mounted) // this *directory* is mounted by a device (DOWNWARD TRAVERSAL)

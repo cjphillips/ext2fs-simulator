@@ -194,6 +194,7 @@ int _mkdir ();
 int _rmdir ();
 int _creat ();
 int _unlink ();
+void __unlink (MINODE *toRemove, MINODE *pip, char *name);
 void __creat(MINODE *pip, char *name, int type);
 
 /* LINKING OPERATIONS -> Linking*/

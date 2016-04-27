@@ -24,7 +24,7 @@ int cp ()
 
 int _cp(char *src, char *dest)
 {
-  int fd, gd, ino, p_ino, dev = running->cwd->dev;
+  int fd, gd, ino, p_ino, dev = running->cwd->dev, temp;
   char src_path[INODE_NAME], dest_path[INODE_NAME], parent_path[INODE_NAME*2];
   MINODE *pip;
 
@@ -36,8 +36,9 @@ int _cp(char *src, char *dest)
   {
     dev = root->dev;
   }
+  temp = dev;
 
-  ino = get_inode(dest, &dev, TRUE);
+  ino = get_inode(dest_path, &temp, TRUE);
   if (ino < 0)                                    // Must first create the destination file
   {
     p_ino = get_inode(parent_path, &dev, FALSE);
@@ -46,7 +47,7 @@ int _cp(char *src, char *dest)
       return p_ino;
     }
     pip = iget(dev, p_ino);
-    __creat(pip, dest_path, REG_FILE);
+    __creat(pip, basename(dest_path), REG_FILE);
     iput(pip);
   }
 

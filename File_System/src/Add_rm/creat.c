@@ -64,7 +64,7 @@ void __creat(MINODE *pip, char *name, int type)
   int n_ino = ialloc(pip->dev);  // Allocate a new inode
   int i;
 
-  mip = iget(mp->dev, n_ino);
+  mip = iget(pip->dev, n_ino);
   ip = &mip->Inode;
 
   /* Set the new inode's contents */
@@ -73,8 +73,8 @@ void __creat(MINODE *pip, char *name, int type)
   ip->i_gid = running->gid;                   // Group ID
   ip->i_size = 0;                             // no blocks, no size
   ip->i_links_count = 1;                      // itself AND its parent
-  ip->i_atime = ip->i_ctime = time(0L);
-  ip->i_mtime = ip->i_ctime;                  // time fields to current time
+  ip->i_atime = ip->i_mtime = time(0L);
+  ip->i_ctime = ip->i_mtime;                  // time fields to current time
   ip->i_blocks = 0;                           // initially no data blocks
   ip->i_block[0] = 0;                         // "         ...          "
   for(i = 1; i < 15; i++)

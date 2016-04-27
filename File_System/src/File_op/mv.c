@@ -32,16 +32,17 @@ int mv ()
     dest_dev = root->dev;
   }
 
+
+  p_ino = get_inode(dest_parent_path, &dest_dev, FALSE); // Make sure that the destination's parent exists
+  if (p_ino < 0)
+  {
+    printf("\"%s\" : parent directory does not exist.\n", basename(dest_parent_path));
+    return -4;
+  }
   ino = get_inode(dest, &dest_dev, TRUE);       // Make sure that the destination file does not already exist
   if (ino > 0)                                    // Destination file already exists
   {
     printf("\"%s\" : file already exists with this name.\n", dest);
-    return -4;
-  }
-  p_ino = get_inode(dest_parent_path, &dest_dev, TRUE); // Make sure that the destination's parent exists
-  if (p_ino < 0)
-  {
-    printf("\"%s\" : parent directory does not exist.\n", basename(dest_parent_path));
     return -4;
   }
   ino = get_inode(src, &src_dev, FALSE);       // Make sure that the source file does exist
@@ -68,6 +69,21 @@ int mv ()
   else
   {
     _cp(src, dest);
+
+    mip->Inode.i_links_count--;
+    if (mip->Inode.i_links_count == 0)
+    {
+      __unlink(mip, s_pip, basename(src));
+    }
+
+    remove_name(s_pip, mip->ino, basename(src));
+
+    if (DEBUGGING)
+      debug_dir(s_pip);
+
+    s_pip->Inode.i_atime = time(0L);
+    s_pip->dirty = TRUE;
+    mip->dirty = TRUE;
   }
   // TODO: moving files across devices
   iput(mip);
