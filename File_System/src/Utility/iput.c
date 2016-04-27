@@ -44,5 +44,5 @@ void iput(MINODE *mip)
 
   ip = (INODE *)buf + offset;
   memcpy(ip, &mip->Inode, sizeof(INODE));
-  put_block(mp->dev, blk, buf); 
+  put_block(mip->dev, blk, buf); 
 }

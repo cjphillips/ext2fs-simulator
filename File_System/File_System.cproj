@@ -90,6 +90,9 @@
     <Compile Include="src\File_op\File_Util\_lseek.c" />
     <Compile Include="src\File_op\File_Util\_write.c" />
     <Compile Include="src\Utility\get_mount.c" />
+    <Compile Include="src\Debug\print_mounts.c" />
+    <Compile Include="src\Utility\clear_scrn.c" />
+    <Compile Include="src\Debug\print_inodes.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\include\fs.h" />

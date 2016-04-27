@@ -51,7 +51,7 @@ int _rmdir()
     return -5;
   }
 
-  mip = iget(mp->dev, ino); // get the inode to remove
+  mip = iget(dev, ino); // get the inode to remove
 
   if ((mip->Inode.i_mode & 0xF000) != 0x4000)
   {

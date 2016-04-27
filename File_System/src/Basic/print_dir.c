@@ -64,9 +64,14 @@ void print_dir(MINODE *dir, int dev)
       printf("%4d ", (int)at->Inode.i_links_count);
       printf("%4d ", at->Inode.i_gid);
       printf("%4d ", at->Inode.i_uid);
-      printf("%8d ", (int)at->Inode.i_size);
+      printf("%8d  ", (int)at->Inode.i_size);
 
-      printf("%s  ", ctime((time_t *)&at->Inode.i_ctime));
+      char *mtime = ctime((time_t *)&at->Inode.i_mtime);
+      if (mtime)
+      {
+        mtime[strlen(mtime) - 1] = 0;
+      }
+      printf("%s  ", mtime);
 
       //char *ftime = ctime((time_t *)&at->Inode.i_ctime);
       //(ftime) ? printf("%s  ", ftime) : printf("(ctime not found)  ");

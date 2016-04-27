@@ -73,9 +73,9 @@ int mount ()
   i = 0;
   while(mounttab[i].busy == TRUE) // ensure that the passed file system is not already mounted
   {
-    if(strcmp(mounttab[i].mount_name, filesys) == 0) 
+    if(strcmp(mounttab[i].name, filesys) == 0) 
     {
-      printf("\"%s\" : already mounted.\n", basename(filesys));
+      printf("\"%s\" : already mounted.\n", filesys);
       return -3;
     }
 
@@ -84,7 +84,8 @@ int mount ()
 
   // i points to an empty mount point
   MOUNT *n_mp = &mounttab[i];
-  strncpy(n_mp->mount_name, filesys, 256);
+  strncpy(n_mp->name, filesys, 256);
+  strcpy(n_mp->mount_name, basename(mount_point));
   n_mp->ninodes = sp->s_inodes_count;
   n_mp->nblocks = sp->s_blocks_count;
 

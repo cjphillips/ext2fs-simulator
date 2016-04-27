@@ -174,6 +174,7 @@ bool isEmpty (MINODE *at);
 void IncFree (bool inode);
 void decFree (bool inode);
 void _truncate (MINODE *mip);
+int clear();
 int menu ();
 
 /*--------------LEVEL ONE-------------------*/
@@ -217,6 +218,7 @@ int __open  (char *file, int mode);
 int __read  (int fd, char buf[], int nbytes);
 int __write (int fd, char buf[], int nbytes);
 int __lseek (int fd, int position);
+int _cp(char *src, char *dest);
 
 
 /*------------------------------------------*/
@@ -229,6 +231,8 @@ int umount ();
 /* DEBUG FUNCTIONS -> debug.c */
 int debug_dir(MINODE *ip);
 int print_oft();
+int print_mounts();
+int print_inodes();
 
 
 #endif /* CJP_EXT2FS_H */

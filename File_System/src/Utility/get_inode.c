@@ -96,7 +96,7 @@ int get_inode(char *path, int *device, bool quiet)
     if(DEBUGGING) 
       printf("{DEBUG} parent ino = %d, i_mode = %x\n", ino, ip->Inode.i_mode);
     
-    if(i < numTokens && ip->Inode.i_mode != DIRECTORY) {
+    if(i + 1 < numTokens && ip->Inode.i_mode != DIRECTORY) {
       errno = 20; // not a directory
       if (!quiet)
         printf("\"%s\" : %s\n", out[i], strerror(errno)); 

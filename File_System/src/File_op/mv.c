@@ -65,6 +65,10 @@ int mv ()
 
     remove_name(s_pip, mip->ino, basename(src));
   }
+  else
+  {
+    _cp(src, dest);
+  }
   // TODO: moving files across devices
   iput(mip);
   iput(d_pip);

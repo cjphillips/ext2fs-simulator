@@ -40,9 +40,16 @@ int cd()
   {
     return -1;
   }
+  mip = iget(dev, ino);
+  if ((mip->Inode.i_mode & 0xF000) != 0x4000)
+  {
+    printf("Not a directory.\n");
+    iput(mip);
+    return -2;
+  }
 
   iput(running->cwd);
-  running->cwd = iget(dev, ino);
+  running->cwd = mip;
 
   /*
   numTokens = tokenize(out[1], "/");

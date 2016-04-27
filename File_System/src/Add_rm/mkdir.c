@@ -123,7 +123,7 @@ int __mkdir(MINODE *pip, char *name)
   dp->inode     = n_ino;               // Set the new inode number
   dp->rec_len   = 12;                  // Set this record's len
   dp->name_len  = 1;                   // '.' is only one char long
-  dp->file_type = 0x41ED;           // DIR type file
+  dp->file_type = (unsigned char) 0x41ED;           // DIR type file
   strncpy(dp->name, ".", 1);           // write the name
 
   cp += dp->rec_len;
@@ -133,7 +133,7 @@ int __mkdir(MINODE *pip, char *name)
   dp->inode     = pip->ino;            // set parent's inode
   dp->rec_len   = 1012;                // the rest of the block
   dp->name_len  = 2;                   // ".." is only two char long
-  dp->file_type = 0x41ED;           // parent is a directory
+  dp->file_type = (unsigned char) 0x41ED;           // parent is a directory
   strncpy(dp->name, "..", 2);          // write the name
   
   put_block(pip->dev, n_bno, buf);      // Write block back

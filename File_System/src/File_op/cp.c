@@ -18,20 +18,26 @@ int cp ()
     return -3;
   }
 
+  return _cp(out[1], out[2]);
+}
+
+
+int _cp(char *src, char *dest)
+{
   int fd, gd, ino, p_ino, dev = running->cwd->dev;
-  char src[INODE_NAME*2], dest[INODE_NAME*2], parent_path[INODE_NAME*2];
+  char src_path[INODE_NAME], dest_path[INODE_NAME], parent_path[INODE_NAME*2];
   MINODE *pip;
 
-  strcpy(src, out[1]);
-  strcpy(dest, out[2]);
-  strcpy(parent_path, dirname(out[2]));
+  strcpy(src_path, src);
+  strcpy(dest_path, dest);
+  strcpy(parent_path, dirname(dest));
 
-  if (out[2][0] == '/')
+  if (dest[0] == '/')
   {
     dev = root->dev;
   }
 
-  ino = get_inode(out[2], &dev, TRUE);
+  ino = get_inode(dest, &dev, TRUE);
   if (ino < 0)                                    // Must first create the destination file
   {
     p_ino = get_inode(parent_path, &dev, FALSE);
@@ -40,16 +46,16 @@ int cp ()
       return p_ino;
     }
     pip = iget(dev, p_ino);
-    __creat(pip, dest, REG_FILE);
+    __creat(pip, dest_path, REG_FILE);
     iput(pip);
   }
 
-  fd = __open(src, 0); // open the source file for read
+  fd = __open(src_path, 0); // open the source file for read
   if (fd < 0)
   {
     return fd;
   }
-  gd = __open(dest, 1); // open the dest file for write
+  gd = __open(dest_path, 1); // open the dest file for write
   if (gd < 0)
   {
     return gd;

@@ -14,7 +14,7 @@ void remove_name(MINODE *pip, int d_ino, char *name)
   // Find record
   while (i < 12 && pip->Inode.i_block[i])
   {
-    get_block(mp->dev, pip->Inode.i_block[i], buf);
+    get_block(pip->dev, pip->Inode.i_block[i], buf);
     while(cp < buf + BLKSIZE) 
     {
       strncpy(temp, dp->name, dp->name_len);
@@ -43,10 +43,10 @@ void remove_name(MINODE *pip, int d_ino, char *name)
     printf("Record Found: %s, Blk #%d\n", temp, pip->Inode.i_block[i]);
 
   /* Find position of record in block */
-  if (cp + dp->rec_len >= BLKSIZE) { // LAST RECORD
+  if (cp + dp->rec_len >= (char *)BLKSIZE) { // LAST RECORD
     dp->inode = 0;                     // zero out ino
     prev_dp->rec_len += dp->rec_len; // have prev record's length extend over the rest of the record
-    put_block(mp->dev, pip->Inode.i_block[i], buf);
+    put_block(pip->dev, pip->Inode.i_block[i], buf);
   }
   else                               // Could be first, or in-between records
   {
@@ -54,7 +54,7 @@ void remove_name(MINODE *pip, int d_ino, char *name)
     if (prev_dp = 0)                 // first record
     {
       bdealloc(pip->Inode.i_block[i], pip->dev); // Remove this block
-      put_block(mp->dev, pip->Inode.i_block[i], buf);
+      put_block(pip->dev, pip->Inode.i_block[i], buf);
 
       while(pip->Inode.i_block[i + 1]) // Move all blocks down
       {
@@ -87,7 +87,7 @@ void remove_name(MINODE *pip, int d_ino, char *name)
         cp += dp->rec_len;
         dp = (DIR *)cp;
       }
-      put_block(mp->dev, pip->Inode.i_block[i], buf);
+      put_block(pip->dev, pip->Inode.i_block[i], buf);
     }
   }
 }
