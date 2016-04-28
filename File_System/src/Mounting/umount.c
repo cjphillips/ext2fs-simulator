@@ -30,7 +30,7 @@ int umount ()
   i = 0;
   while (i < NMINODES) // ensure that the mount is not in use
   {
-    if (minode[i].dev == mp->dev)
+    if (minode[i].ref_count > 0 && minode[i].dev == mp->dev)
     {
       printf("Mount still active.\n");
       return -2;
